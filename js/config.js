@@ -1,6 +1,6 @@
 /**
  * ====================================================================
- * THE CURSE OF ELLIE - 4-STAGE HORROR JIGSAW HUNT CONFIGURATION
+ * THE CURSE OF ELLIE - 3-STAGE HORROR JIGSAW HUNT CONFIGURATION
  * ====================================================================
  * All stage assets, grid dimensions, and reveal contents are defined here.
  * You can easily edit image paths, grid sizes, or clue texts below.
@@ -23,58 +23,24 @@ const GAME_CONFIG = {
     enableCheatKeys: true // Shift + R = organizer menu
   },
 
-  // 4 Horror Game Stages (Each stage with its own designated video)
+  // 3 Horror Game Stages
   stages: [
     // ---------------------------------------------------------------
-    // STAGE 1: Jigsaw -> Reveals Old Handwritten Letter ("Ellie")
+    // STAGE 1: Jigsaw -> Reveals Location of Hair & Porcelain Hand
     // ---------------------------------------------------------------
-    {
+  /*   {
       id: 1,
-      number: "1/4",
-      title: "Stage I: The Whisper in the Walls",
-      subtitle: "Torn parchment from the locked study. Reassemble the fragmented signal.",
-      video: "asset/videos/jigsaw_1.mp4",
-      puzzleImage: "assets/puzzles/stage1.png",
-      fallbackImage: "images/letter.png",
-      grid: { rows: 3, cols: 3 }, // 3x3 grid (9 pieces)
-      snapTolerance: 45,
-      revealType: "letter",
-      revealData: {
-        tag: "ARCHIVAL TESTIMONY • 1892",
-        title: "The Unsent Letter",
-        image: "images/letter.png",
-        letterHeading: "October 14th, 1892",
-        letterBody: [
-          "My dearest sister,",
-          "The shadows inside this estate have deepened beyond reason. Last night, the grandfather clock struck thirteen, and a suffocating cold crept beneath the floorboards.",
-          "In the darkness between heartbeats, they whisper one name over and over...",
-          "They call her ELLIE.",
-          "Ellie has not moved on. Her spirit is bound to this earth by severed relics. If you find this testament before dawn, mark her name well in your heart. The name ELLIE is the first ward against the dark.",
-          "Keep the flame burning. Do not look directly into the hallway glass.",
-          "— Arthur"
-        ],
-        highlightWord: "ELLIE",
-        clueSummary: "CLUE #1: The ghost's true name is ELLIE.",
-        huntInstruction: "Hunters: Write down the name 'ELLIE' in your field log. You will need it to unlock the next real-world checkpoint."
-      }
-    },
-
-    // ---------------------------------------------------------------
-    // STAGE 2: Jigsaw -> Reveals Location of Hair & Porcelain Hand
-    // ---------------------------------------------------------------
-    {
-      id: 2,
-      number: "2/4",
-      title: "Stage II: Relics of the Binding",
+      number: "1/3",
+      title: "Stage I: Relics of the Binding",
       subtitle: "Reconstruct the archival sketch to unearth the hidden relics.",
       video: "asset/videos/jigsaw_2.mp4",
       puzzleImage: "assets/puzzles/stage2.jpg",
       fallbackImage: "images/hair_and_hand.jpg",
-      grid: { rows: 3, cols: 3 }, // 3x3 grid
+      grid: { rows: 3, cols: 3 },
       snapTolerance: 45,
       revealType: "clue_card",
       revealData: {
-        tag: "EVIDENCE DOSSIER • FILE #02",
+        tag: "EVIDENCE DOSSIER • FILE #01",
         title: "The Binding Relics",
         image: "images/hair_and_hand.jpg",
         relics: [
@@ -91,23 +57,23 @@ const GAME_CONFIG = {
             description: "A cracked porcelain palm inscribed with warding glyphs. Once used to tether the wandering specter."
           }
         ],
-        clueSummary: "CLUE #2: HAIR = Staircase bookshelf box | HAND = Basement locker #4.",
+        clueSummary: "CLUE #1: HAIR = Staircase bookshelf box | HAND = Basement locker #4.",
         huntInstruction: "Hunters: Note both physical locations. In the real-world search, both relics must be discovered before lighting the circle."
       }
-    },
+    }, */
 
     // ---------------------------------------------------------------
-    // STAGE 3: Jigsaw -> Reveals Candle Positions Layout Diagram
+    // STAGE 2: Jigsaw -> Reveals Candle Positions Layout Diagram
     // ---------------------------------------------------------------
     {
-      id: 3,
-      number: "3/4",
-      title: "Stage III: The Circle of Flames",
+      id: 2,
+      number: "2/3",
+      title: "Stage II: The Circle of Flames",
       subtitle: "Assemble the arcane diagram to uncover the exact candle layout.",
       video: "asset/videos/jigsaw_3.mp4",
       puzzleImage: "assets/puzzles/stage3.jpg",
       fallbackImage: "images/candle_ritual.jpg",
-      grid: { rows: 3, cols: 4 }, // 3x4 grid (12 pieces)
+      grid: { rows: 3, cols: 4 },
       snapTolerance: 42,
       revealType: "candles_diagram",
       revealData: {
@@ -128,23 +94,23 @@ const GAME_CONFIG = {
           "3. All 5 flames must burn simultaneously with crimson-amber light.",
           "4. Place the Porcelain Hand in the center; drape the Hair across the North-West axis."
         ],
-        clueSummary: "CLUE #3: 5 Red-flame candles arranged in a pentagram (North apex, clockwise rotation).",
+        clueSummary: "CLUE #2: 5 Red-flame candles arranged in a pentagram (North apex, clockwise rotation).",
         huntInstruction: "Hunters: Sketch this candle arrangement. Organizers will inspect the real-world candle circle for exact alignment."
       }
     },
 
     // ---------------------------------------------------------------
-    // STAGE 4: Jigsaw -> Reveals Ghost's Actual Visage (Ellie)
+    // STAGE 3: Jigsaw -> Reveals Ghost's Actual Visage (Ellie)
     // ---------------------------------------------------------------
     {
-      id: 4,
-      number: "4/4",
-      title: "Stage IV: The Manifestation of Ellie",
+      id: 3,
+      number: "3/3",
+      title: "Stage III: The Manifestation of Ellie",
       subtitle: "The final seal breaks. Assemble the visage to confront the truth.",
       video: "asset/videos/jigsaw_4.mp4",
       puzzleImage: "assets/puzzles/stage4.png",
       fallbackImage: "images/the-ghost.png",
-      grid: { rows: 4, cols: 4 }, // 4x4 grid (16 pieces)
+      grid: { rows: 4, cols: 4 },
       snapTolerance: 40,
       revealType: "ghost_reveal",
       revealData: {
@@ -159,8 +125,8 @@ const GAME_CONFIG = {
           { item: "Ritual Alignment", value: "5 Pentagonal Crimson Candles" },
           { item: "Final Encounter", value: "Visage Revealed & Documented" }
         ],
-        clueSummary: "FINAL CLUE: The spirit is Ellie. Present all 4 gathered clues to the Game Master.",
-        huntInstruction: "HURRY! Report to the hunt headquarters with your completed notebook containing all 4 clues!"
+        clueSummary: "FINAL CLUE: The spirit is Ellie. Present all 3 gathered clues to the Game Master.",
+        huntInstruction: "HURRY! Report to the hunt headquarters with your completed notebook containing all 3 clues!"
       }
     }
   ]

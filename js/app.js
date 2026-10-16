@@ -8,7 +8,7 @@
 
 class HorrorGameController {
   constructor() {
-    this.storageKey = "iete_curse_of_ellie_progress_v2";
+    this.storageKey = "iete_curse_of_ellie_progress_v3";
     this.currentStageIndex = 0;
     this.unlockedStageIndex = 0;
     this.jigsawInstance = null;
@@ -400,7 +400,7 @@ class HorrorGameController {
    * CLUE REVEAL MODAL DISPLAY
    * ------------------------------------------------------------------ */
   showStageReveal(stage) {
-    const isStage4 = stage.id === 4;
+    const isLastStage = stage.id === GAME_CONFIG.stages[GAME_CONFIG.stages.length - 1].id;
 
     // Build popup: just the stage image + next stage button
     const imgSrc = `images/jigsaw_${stage.id}_popup.jpg`;
@@ -433,7 +433,7 @@ class HorrorGameController {
       });
     }
 
-    if (isStage4 && this.jumpscareOverlay && this.jumpscareVideo) {
+    if (isLastStage && this.jumpscareOverlay && this.jumpscareVideo) {
       // Stage 4: play jumpscare video first, then show popup
       this.jumpscareOverlay.classList.add("active");
       this.jumpscareVideo.currentTime = 0;
@@ -443,7 +443,7 @@ class HorrorGameController {
         this.jumpscareVideo.removeEventListener("ended", onEnded);
         this.jumpscareOverlay.classList.remove("active");
         this.jumpscareVideo.pause();
-        this.playRevealAudio(true);
+        this.playRevealAudio(isLastStage);
         this.revealOverlay.classList.add("active");
       };
 
@@ -453,12 +453,12 @@ class HorrorGameController {
         this.jumpscareVideo.play().catch(() => {
           this.jumpscareVideo.removeEventListener("ended", onEnded);
           this.jumpscareOverlay.classList.remove("active");
-          this.playRevealAudio(true);
+          this.playRevealAudio(isLastStage);
           this.revealOverlay.classList.add("active");
         });
       });
     } else {
-      this.playRevealAudio(isStage4);
+      this.playRevealAudio(isLastStage);
       this.revealOverlay.classList.add("active");
     }
   }
