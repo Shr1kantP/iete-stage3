@@ -7,11 +7,8 @@
  */
 
 const GAME_CONFIG = {
-  // Looping background video path (with fallback)
-  video: {
-    src: "assets/video/background.mp4",
-    fallbackSrc: "asset/videos/jigsaw_1.mp4"
-  },
+  // Global Countdown Timer (in seconds). 6 minutes = 360 seconds.
+  countdownSeconds: 360,
 
   // Audio settings (synthesized atmospheric horror sound effects)
   audio: {
@@ -20,13 +17,13 @@ const GAME_CONFIG = {
     ambientDroneVolume: 0.15
   },
 
-  // Organizer settings
+  // Admin / Organizer settings
   organizer: {
     passcode: "1234", // Passcode for secret reset / stage jump
     enableCheatKeys: true // Shift + R = organizer menu
   },
 
-  // 4 Horror Game Stages
+  // 4 Horror Game Stages (Each stage with its own designated video)
   stages: [
     // ---------------------------------------------------------------
     // STAGE 1: Jigsaw -> Reveals Old Handwritten Letter ("Ellie")
@@ -35,14 +32,15 @@ const GAME_CONFIG = {
       id: 1,
       number: "1/4",
       title: "Stage I: The Whisper in the Walls",
-      subtitle: "Piece together the torn parchment from the locked study.",
+      subtitle: "Torn parchment from the locked study. Reassemble the fragmented signal.",
+      video: "asset/videos/jigsaw_1.mp4",
       puzzleImage: "assets/puzzles/stage1.png",
       fallbackImage: "images/letter.png",
       grid: { rows: 3, cols: 3 }, // 3x3 grid (9 pieces)
-      snapTolerance: 45, // pixel distance for automatic snap
+      snapTolerance: 45,
       revealType: "letter",
       revealData: {
-        tag: "SECRET CORRESPONDENCE • 1892",
+        tag: "ARCHIVAL TESTIMONY • 1892",
         title: "The Unsent Letter",
         image: "images/letter.png",
         letterHeading: "October 14th, 1892",
@@ -69,6 +67,7 @@ const GAME_CONFIG = {
       number: "2/4",
       title: "Stage II: Relics of the Binding",
       subtitle: "Reconstruct the archival sketch to unearth the hidden relics.",
+      video: "asset/videos/jigsaw_2.mp4",
       puzzleImage: "assets/puzzles/stage2.jpg",
       fallbackImage: "images/hair_and_hand.jpg",
       grid: { rows: 3, cols: 3 }, // 3x3 grid
@@ -105,6 +104,7 @@ const GAME_CONFIG = {
       number: "3/4",
       title: "Stage III: The Circle of Flames",
       subtitle: "Assemble the arcane diagram to uncover the exact candle layout.",
+      video: "asset/videos/jigsaw_3.mp4",
       puzzleImage: "assets/puzzles/stage3.jpg",
       fallbackImage: "images/candle_ritual.jpg",
       grid: { rows: 3, cols: 4 }, // 3x4 grid (12 pieces)
@@ -141,6 +141,7 @@ const GAME_CONFIG = {
       number: "4/4",
       title: "Stage IV: The Manifestation of Ellie",
       subtitle: "The final seal breaks. Assemble the visage to confront the truth.",
+      video: "asset/videos/jigsaw_4.mp4",
       puzzleImage: "assets/puzzles/stage4.png",
       fallbackImage: "images/the-ghost.png",
       grid: { rows: 4, cols: 4 }, // 4x4 grid (16 pieces)

@@ -3,35 +3,39 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>The Curse of Ellie | 4-Stage Horror Mystery Jigsaw Hunt</title>
-  <meta name="description" content="A 4-stage horror mystery jigsaw game. Piece together forgotten fragments to reveal clues for the real-world occult hunt.">
+  <title>The Curse of Ellie | Vintage Retro Horror Jigsaw</title>
+  <meta name="description" content="A vintage retro horror jigsaw game. 4 stages, CRT television overlay, real-time stage videos, and real-world hunt clues.">
   <meta name="theme-color" content="#0a0102">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-  <!-- Fullscreen Looping Video Background with Red Tint Overlay -->
+  <!-- Fullscreen Dynamic Stage Video with Vintage Vignette & CRT Grain -->
   <div class="video-background-layer" aria-hidden="true">
     <video id="bg-video" autoplay loop muted playsinline preload="auto">
-      <source src="assets/video/background.mp4" type="video/mp4">
       <source src="asset/videos/jigsaw_1.mp4" type="video/mp4">
     </video>
     <div class="video-overlay-vignette"></div>
     <div class="noise-overlay"></div>
   </div>
 
-  <!-- Stage 4 Dramatic Red Screen Flash Effect -->
-  <div class="red-flash-overlay" id="red-flash-overlay" aria-hidden="true"></div>
+  <!-- Stage 4 Jumpscare Video Overlay -->
+  <div class="jumpscare-overlay" id="jumpscare-overlay" aria-hidden="true">
+    <video id="jumpscare-video" preload="auto" playsinline muted>
+      <source src="assets/video/jumpscare.mp4" type="video/mp4">
+    </video>
+  </div>
 
   <!-- Main Horror Game Application -->
   <main class="app-container">
 
-    <!-- Top Atmospheric Header -->
+    <!-- Top Retro Header Bar -->
     <header class="game-header">
       <div class="header-brand">
         <span class="brand-icon" aria-hidden="true">🕯️</span>
         <div>
           <h1 class="brand-title">THE CURSE OF ELLIE</h1>
+          <div class="brand-subtext">VINTAGE BROADCAST &bull; OCCULT HUNT</div>
         </div>
       </div>
 
@@ -41,8 +45,20 @@
         <span class="stage-number" id="header-stage-num">1/4</span>
       </div>
 
-      <!-- Action Controls -->
+      <!-- 6-Minute Countdown Timer -->
+      <div class="timer-container" id="game-timer-box" title="Global Mission Countdown">
+        <span class="timer-icon" aria-hidden="true">⏳</span>
+        <span class="timer-digits" id="countdown-timer-display">06:00</span>
+      </div>
+
+      <!-- Action Controls & Admin Access -->
       <div class="header-actions">
+        <!-- Direct Reset to Level 1 Button -->
+        <button class="icon-btn btn-reset-l1" id="btn-header-reset-l1" title="Reset Game to Stage 1">
+          <span aria-hidden="true">⏪</span>
+          <span>RESET L1</span>
+        </button>
+
         <!-- Reference Image Toggle Button -->
         <button class="icon-btn" id="btn-toggle-ref" title="Toggle Reference Relic">
           <span aria-hidden="true">👁️</span>
@@ -55,9 +71,10 @@
           <span class="btn-text">Audio</span>
         </button>
 
-        <!-- Secret Organizer Reset / Jump Button -->
-        <button class="icon-btn organizer-secret-btn" id="btn-organizer-reset" title="Organizer Secret Menu (Shift+R)">
-          <span aria-hidden="true">💀</span>
+        <!-- Admin Access Button -->
+        <button class="icon-btn admin-trigger-btn" id="btn-admin-open" title="Admin Control Room (Shift+R)">
+          <span aria-hidden="true">⚙️</span>
+          <span>ADMIN</span>
         </button>
       </div>
     </header>
@@ -65,10 +82,10 @@
     <!-- Stage Banner Title & Narrative Subtitle -->
     <section class="stage-title-banner" aria-live="polite">
       <h2 class="current-stage-title" id="stage-banner-title">Stage I: The Whisper in the Walls</h2>
-      <p class="current-stage-subtitle" id="stage-banner-sub">Piece together the torn parchment from the locked study.</p>
+      <p class="current-stage-subtitle" id="stage-banner-sub">Torn parchment from the locked study. Reassemble the fragmented signal.</p>
     </section>
 
-    <!-- Jigsaw Puzzle Mount Container (Rendered dynamically by JigsawPuzzle engine) -->
+    <!-- Jigsaw Puzzle Mount Container (Rendered dynamically with Retro TV & Scatterbox) -->
     <section class="jigsaw-mount-zone" id="jigsaw-mount" aria-label="Jigsaw Puzzle Game Board"></section>
 
   </main>
@@ -80,23 +97,37 @@
     </div>
   </div>
 
-  <!-- Hidden Organizer Menu Modal -->
-  <div class="reveal-modal-overlay" id="organizer-modal-overlay" role="dialog" aria-modal="true">
-    <div class="reveal-card organizer-modal">
-      <h3 class="modal-title">⚙️ ORGANIZER CONTROLS</h3>
-      <div class="organizer-row">
-        <label class="organizer-label" for="organizer-pass-input">Organizer Passcode (Default: 1234):</label>
-        <input type="password" id="organizer-pass-input" class="organizer-input" placeholder="Enter Passcode">
+  <!-- Admin Controls Modal -->
+  <div class="reveal-modal-overlay" id="admin-modal-overlay" role="dialog" aria-modal="true">
+    <div class="reveal-card admin-modal">
+      <div class="admin-header">
+        <h3 class="admin-title">⚡ ADMIN & ORGANIZER CONTROL ROOM</h3>
       </div>
-      <div class="organizer-row">
-        <label class="organizer-label" for="organizer-stage-select">Jump to Stage:</label>
-        <select id="organizer-stage-select" class="organizer-input"></select>
+
+      <div class="admin-quick-bar">
+        <button class="btn-reset-l1" id="btn-admin-modal-reset">
+          🔄 INSTANT RESET TO STAGE 1 (LEVEL 1)
+        </button>
       </div>
-      <div class="organizer-buttons">
-        <button class="btn-danger" id="btn-organizer-confirm-reset">RESET ALL PROGRESS</button>
-        <button class="btn-secondary" id="btn-organizer-jump">JUMP TO STAGE</button>
-        <button class="btn-secondary" id="btn-organizer-cancel">CLOSE</button>
+
+      <div class="admin-section">
+        <div class="admin-section-title">Stage Warp / Jump:</div>
+        <div class="admin-row">
+          <select id="admin-stage-select" class="admin-input"></select>
+          <button class="btn-admin-action" id="btn-admin-jump">JUMP</button>
+        </div>
       </div>
+
+      <div class="admin-section">
+        <div class="admin-section-title">6-Minute Countdown Timer:</div>
+        <div class="admin-row">
+          <button class="btn-admin-action" id="btn-admin-reset-timer" style="width: 100%;">
+            ⏳ RESET COUNTDOWN TIMER TO 06:00
+          </button>
+        </div>
+      </div>
+
+      <button class="btn-admin-close" id="btn-admin-close">CLOSE ADMIN CONSOLE</button>
     </div>
   </div>
 

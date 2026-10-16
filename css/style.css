@@ -1,9 +1,8 @@
 /* ====================================================================
- * THE CURSE OF ELLIE - HORROR MYSTERY JIGSAW HUNT
- * STYLING & ATMOSPHERE SYSTEM
+ * THE CURSE OF ELLIE - VINTAGE RETRO HORROR JIGSAW SYSTEM
  * ==================================================================== */
 
-/* Custom Font Definitions */
+/* Custom Retro & Vintage Font Definitions */
 @font-face {
   font-family: 'FrightHouse';
   src: url('../assets/fonts/TheFrightHouseDEMO.otf') format('opentype'),
@@ -18,7 +17,7 @@
   font-display: swap;
 }
 
-/* User Defined Color Palette */
+/* User Defined Color Palette (Blood / Horror / Vintage) */
 :root {
   --bg: #0a0102;        /* near-black with red undertone */
   --bg-soft: #1a0305;   /* deep soft wine background */
@@ -28,15 +27,17 @@
   --paper: #e8d5b5;     /* aged parchment for letter and evidence cards */
   --text: #f3e3dc;      /* crisp bone-white readable text */
 
-  /* Atmospheric accents */
-  --paper-ink: #2b1d14;
-  --candle-flame: #ff5511;
-  --candle-glow: rgba(255, 75, 17, 0.45);
-  --border-glow: 0 0 12px rgba(255, 42, 42, 0.35);
-  --font-horror: 'FrightHouse', 'Cinzel Decorative', 'Georgia', serif;
+  /* Vintage CRT & Wood Cabinet Palette */
+  --tv-cabinet: #1d120c;
+  --tv-bezel: #2a1a12;
+  --tv-screen-border: #140d09;
+  --crt-phosphor: #ff3b30;
+  --amber-glow: #ff9933;
+
+  /* Typography */
   --font-retro: 'EasVHS', 'Courier New', monospace;
-  --font-text: 'Crimson Text', 'Georgia', serif;
-  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-horror: 'FrightHouse', 'Cinzel Decorative', 'Georgia', serif;
+  --font-serif: 'Crimson Text', 'Georgia', serif;
 }
 
 /* Global Reset & Base */
@@ -52,19 +53,13 @@ html, body {
   min-height: 100%;
   background-color: var(--bg);
   color: var(--text);
-  font-family: var(--font-sans);
+  font-family: var(--font-retro);
   overflow-x: hidden;
   user-select: none;
   -webkit-user-select: none;
 }
 
-/* Fallback static background if video fails */
-body {
-  background: radial-gradient(circle at 50% 30%, #200407 0%, #0d0103 60%, #050001 100%);
-  position: relative;
-}
-
-/* Fullscreen Background Video & Overlay */
+/* Fullscreen Background Video & Vintage Vignette Overlay */
 .video-background-layer {
   position: fixed;
   top: 0;
@@ -80,19 +75,18 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.38;
-  filter: contrast(1.15) saturate(1.2);
-  transition: opacity 1.2s ease;
+  opacity: 0.42;
+  filter: contrast(1.2) saturate(1.15);
+  transition: opacity 0.8s ease;
 }
 
-/* Dark Red Tinted Vignette Overlay */
 .video-overlay-vignette {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle at 50% 45%, rgba(139, 0, 0, 0.28) 0%, rgba(26, 3, 5, 0.75) 60%, rgba(10, 1, 2, 0.95) 100%);
+  background: radial-gradient(circle at 50% 50%, rgba(139, 0, 0, 0.25) 0%, rgba(20, 2, 4, 0.78) 55%, rgba(6, 0, 1, 0.96) 100%);
   mix-blend-mode: multiply;
   pointer-events: none;
 }
@@ -103,124 +97,158 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: repeating-radial-gradient(circle at 17% 32%, rgba(255, 42, 42, 0.02) 0, rgba(0, 0, 0, 0.04) 2px);
+  background-image: repeating-radial-gradient(circle at 17% 32%, rgba(255, 42, 42, 0.025) 0, rgba(0, 0, 0, 0.05) 2px);
   pointer-events: none;
-  opacity: 0.6;
+  opacity: 0.65;
 }
 
-/* Main Application Shell */
+/* Main Application Shell - Spacious Vintage Layout */
 .app-container {
   position: relative;
   z-index: 10;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  padding: 12px 16px 24px 16px;
-  max-width: 960px;
+  padding: 12px 18px 24px 18px;
+  max-width: 1380px;
   margin: 0 auto;
 }
 
-/* Header Bar */
+/* Vintage Header Bar */
 .game-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 14px;
-  background: rgba(26, 3, 5, 0.75);
-  border: 1px solid rgba(176, 16, 24, 0.45);
+  padding: 12px 18px;
+  background: linear-gradient(180deg, rgba(32, 6, 9, 0.92) 0%, rgba(15, 2, 4, 0.95) 100%);
+  border: 2px solid var(--crimson);
   border-radius: 8px;
-  backdrop-filter: blur(8px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7), inset 0 0 10px rgba(176, 16, 24, 0.25);
-  margin-bottom: 12px;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.85), inset 0 0 15px rgba(176, 16, 24, 0.35);
+  margin-bottom: 14px;
 }
 
 .header-brand {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .brand-icon {
-  font-size: 1.4rem;
+  font-size: 1.8rem;
   color: var(--glow);
-  text-shadow: 0 0 8px var(--glow);
-  animation: flickerGlow 4s infinite alternate ease-in-out;
+  text-shadow: 0 0 12px var(--glow);
+  animation: candleFlicker 3s infinite alternate ease-in-out;
 }
 
 .brand-title {
   font-family: var(--font-horror);
-  font-size: 1.35rem;
-  letter-spacing: 2px;
-  color: var(--text);
+  font-size: 1.7rem;
+  letter-spacing: 3px;
+  color: #ffcccc;
   text-transform: uppercase;
-  text-shadow: 0 0 10px rgba(255, 42, 42, 0.6);
+  text-shadow: 0 0 14px rgba(255, 42, 42, 0.7);
+  line-height: 1.1;
 }
 
-.brand-badge {
+.brand-subtext {
   font-family: var(--font-retro);
-  font-size: 0.7rem;
-  background: rgba(139, 0, 0, 0.5);
-  border: 1px solid var(--crimson);
-  color: #ff9999;
-  padding: 2px 6px;
-  border-radius: 4px;
-  letter-spacing: 1px;
+  font-size: 0.75rem;
+  color: #cc8888;
+  letter-spacing: 2px;
 }
 
-/* Stage Indicator Component */
+/* Stage Indicator Badge (+40% Enriched Size) */
 .header-stage-badge {
   display: flex;
   align-items: center;
-  gap: 8px;
-  background: rgba(10, 1, 2, 0.85);
-  border: 1px solid var(--blood);
-  padding: 6px 14px;
-  border-radius: 20px;
-  box-shadow: 0 0 10px rgba(139, 0, 0, 0.35);
+  gap: 10px;
+  background: linear-gradient(180deg, #1b0306 0%, #0c0102 100%);
+  border: 2px solid var(--blood);
+  padding: 8px 18px;
+  border-radius: 6px;
+  box-shadow: 0 0 16px rgba(176, 16, 24, 0.5), inset 0 0 8px rgba(0, 0, 0, 0.9);
 }
 
 .stage-label {
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  color: #c4a4a4;
-  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 2px;
+  color: #cbb4b0;
+  font-weight: bold;
 }
 
 .stage-number {
   font-family: var(--font-retro);
-  font-size: 1.05rem;
+  font-size: 1.55rem;
   color: var(--glow);
   font-weight: bold;
-  text-shadow: 0 0 8px var(--glow);
+  text-shadow: 0 0 12px var(--glow), 0 0 24px rgba(255, 42, 42, 0.6);
+  letter-spacing: 1px;
 }
 
 /* Header Action Controls */
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
 }
 
+/* 6-Minute Vintage Countdown Timer */
+.timer-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #090102;
+  border: 2px solid var(--crimson);
+  padding: 6px 14px;
+  border-radius: 6px;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.9), 0 0 12px rgba(176, 16, 24, 0.4);
+}
+
+.timer-icon {
+  font-size: 1.1rem;
+}
+
+.timer-digits {
+  font-family: var(--font-retro);
+  font-size: 1.35rem;
+  color: #ff3b30;
+  text-shadow: 0 0 10px #ff3b30, 0 0 20px rgba(255, 59, 48, 0.6);
+  letter-spacing: 2px;
+  font-weight: bold;
+}
+
+.timer-container.timer-urgent {
+  animation: timerPanicPulse 0.8s infinite alternate ease-in-out;
+  border-color: #ff1100;
+}
+
+@keyframes timerPanicPulse {
+  0% { box-shadow: 0 0 10px #ff1100; transform: scale(1); }
+  100% { box-shadow: 0 0 25px #ff2a2a; transform: scale(1.04); }
+}
+
+/* Header Buttons */
 .icon-btn {
-  background: rgba(26, 3, 5, 0.9);
-  border: 1px solid rgba(176, 16, 24, 0.5);
+  background: #190305;
+  border: 1.5px solid var(--crimson);
   color: var(--text);
-  padding: 6px 12px;
+  padding: 8px 14px;
   border-radius: 6px;
   cursor: pointer;
-  font-size: 0.82rem;
+  font-family: var(--font-retro);
+  font-size: 0.9rem;
   display: flex;
   align-items: center;
   gap: 6px;
-  transition: all 0.25s ease;
+  transition: all 0.2s ease;
   outline: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
 }
 
 .icon-btn:hover {
   background: var(--blood);
   border-color: var(--glow);
-  box-shadow: 0 0 10px rgba(255, 42, 42, 0.5);
+  box-shadow: 0 0 14px var(--glow);
   transform: translateY(-1px);
 }
 
@@ -231,49 +259,51 @@ body {
 .icon-btn.active {
   background: var(--crimson);
   border-color: var(--glow);
-  box-shadow: 0 0 12px rgba(255, 42, 42, 0.8);
+  box-shadow: 0 0 16px var(--glow);
 }
 
-.organizer-secret-btn {
-  opacity: 0.45;
-  padding: 6px 8px;
-  font-size: 0.85rem;
-  border-color: transparent;
+.admin-trigger-btn {
+  background: #2b0408;
+  border-color: var(--glow);
+  color: #ffcccc;
+  font-weight: bold;
 }
-.organizer-secret-btn:hover {
-  opacity: 1;
-  border-color: var(--crimson);
+.admin-trigger-btn:hover {
+  background: #44050d;
 }
 
-/* Stage Header Title & Mission Subtitle */
+/* Stage Header Title & Narrative Subtitle */
 .stage-title-banner {
   text-align: center;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 
 .current-stage-title {
   font-family: var(--font-horror);
-  font-size: 1.6rem;
+  font-size: 2.1rem;
   color: #ffcccc;
-  letter-spacing: 1.5px;
-  text-shadow: 0 0 12px rgba(176, 16, 24, 0.8);
-  margin-bottom: 3px;
+  letter-spacing: 2px;
+  text-shadow: 0 0 16px rgba(176, 16, 24, 0.9);
+  margin-bottom: 4px;
 }
 
 .current-stage-subtitle {
-  font-size: 0.88rem;
+  font-family: var(--font-retro);
+  font-size: 0.92rem;
   color: #cbb4b0;
-  font-style: italic;
-  max-width: 600px;
+  max-width: 720px;
   margin: 0 auto;
+  letter-spacing: 1px;
 }
 
-/* Jigsaw Frame & Board Layout */
+/* ====================================================================
+ * JIGSAW PLAY AREA & RETRO TV OVERLAY SYSTEM
+ * ==================================================================== */
 .jigsaw-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
   width: 100%;
 }
 
@@ -282,69 +312,142 @@ body {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  max-width: 520px;
-  padding: 4px 6px;
+  max-width: 1240px;
+  padding: 4px 10px;
+  background: rgba(15, 2, 4, 0.7);
+  border: 1px solid rgba(139, 0, 0, 0.5);
+  border-radius: 6px;
 }
 
 .jigsaw-counter {
-  font-size: 0.8rem;
+  font-size: 0.92rem;
   color: #ba9898;
-  letter-spacing: 1px;
+  letter-spacing: 1.5px;
 }
 
 .counter-val {
   font-family: var(--font-retro);
   color: var(--glow);
   font-weight: bold;
-  margin-left: 4px;
+  font-size: 1.15rem;
+  margin-left: 6px;
 }
 
 .jigsaw-progress-bar {
   flex: 1;
-  max-width: 180px;
-  height: 6px;
-  background: rgba(10, 1, 2, 0.9);
-  border: 1px solid var(--blood);
+  max-width: 260px;
+  height: 8px;
+  background: rgba(10, 1, 2, 0.95);
+  border: 1.5px solid var(--blood);
   border-radius: 4px;
   overflow: hidden;
-  margin-left: 12px;
+  margin-left: 14px;
 }
 
 .jigsaw-progress-fill {
   height: 100%;
   background: linear-gradient(90deg, var(--blood), var(--glow));
-  box-shadow: 0 0 8px var(--glow);
-  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 10px var(--glow);
+  transition: width 0.3s ease;
 }
 
-/* The Board Area */
-.jigsaw-board-frame {
+/* Side-by-side: Retro TV + Scatterbox */
+.jigsaw-play-area {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: stretch;
+  gap: 24px;
+  width: 100%;
+  max-width: 1260px;
+}
+
+/* --------------------------------------------------------------------
+ * RETRO TV IMAGE OVERLAY SYSTEM (using images/retro-tv.png)
+ * -------------------------------------------------------------------- */
+.retro-tv-frame-wrap {
   position: relative;
+  width: 580px;
+  height: 580px;
+  flex: 0 0 auto;
+  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.95)) drop-shadow(0 0 25px rgba(176, 16, 24, 0.4));
+  user-select: none;
+}
+
+/* The Authentic Vintage TV Image Overlay (placed ON TOP) */
+.retro-tv-img-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  pointer-events: none; /* Allows mouse/touch drag through transparent screen opening! */
+  z-index: 50;
+  filter: contrast(1.08) brightness(0.98);
+}
+
+/* The underlying CRT screen container holding the puzzle board */
+.retro-tv-screen-underlay {
+  position: absolute;
+  /* Matching the exact transparent glass hole on retro-tv.png:
+     Left: 10.5%, Width: 61.2% | Top: 21.4%, Height: 52.3% */
+  left: 10.5%;
+  top: 21.4%;
+  width: 61.2%;
+  height: 52.3%;
+  background: #000000;
+  border-radius: 20px;
+  overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 8px;
-  background: rgba(15, 2, 4, 0.85);
-  border: 2px solid var(--crimson);
-  border-radius: 10px;
-  box-shadow: 0 0 25px rgba(139, 0, 0, 0.45), inset 0 0 20px rgba(0, 0, 0, 0.9);
-  width: 100%;
-  max-width: 536px;
+  box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.98);
+  z-index: 10;
 }
 
+/* CRT Scanlines & Glass reflections */
+.crt-scanlines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.42) 50%
+  );
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 30;
+  opacity: 0.85;
+}
+
+.crt-glass-curvature {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 50% 50%, transparent 60%, rgba(0, 0, 0, 0.65) 100%),
+              linear-gradient(135deg, rgba(255, 255, 255, 0.09) 0%, transparent 40%);
+  pointer-events: none;
+  z-index: 31;
+}
+
+/* The Board inside CRT Screen */
 .jigsaw-board {
   position: relative;
-  background: rgba(8, 1, 2, 0.95);
-  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.95);
+  background: rgba(5, 1, 2, 0.98);
+  box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.95);
   overflow: hidden;
-  border-radius: 6px;
   touch-action: none;
 }
 
-/* Target Slot Outlines */
+/* Slots on Board */
 .jigsaw-slot {
   position: absolute;
-  border: 1px dashed rgba(176, 16, 24, 0.3);
+  border: 1px dashed rgba(176, 16, 24, 0.35);
   box-sizing: border-box;
   pointer-events: none;
   transition: background 0.2s ease, border-color 0.2s ease;
@@ -352,15 +455,15 @@ body {
 
 .jigsaw-slot.slot-hover-target {
   border-color: var(--glow);
-  background: rgba(255, 42, 42, 0.15);
-  box-shadow: inset 0 0 15px rgba(255, 42, 42, 0.35);
+  background: rgba(255, 42, 42, 0.2);
+  box-shadow: inset 0 0 18px rgba(255, 42, 42, 0.45);
 }
 
 .jigsaw-slot.slot-snapped {
   border-color: transparent;
 }
 
-/* Reference Image Overlay */
+/* Reference Overlay */
 .jigsaw-reference-overlay {
   position: absolute;
   top: 0;
@@ -377,10 +480,74 @@ body {
 }
 
 .jigsaw-reference-overlay.active {
-  opacity: 0.45;
+  opacity: 0.5;
 }
 
-/* Puzzle Pieces */
+/* --------------------------------------------------------------------
+ * SCATTERBOX / SCATTERED FRAGMENTS DOCK
+ * -------------------------------------------------------------------- */
+.jigsaw-tray-container {
+  flex: 1 1 400px;
+  min-width: 320px;
+  max-width: 580px;
+  background: linear-gradient(180deg, rgba(28, 6, 9, 0.94) 0%, rgba(14, 2, 4, 0.96) 100%);
+  border: 3px solid var(--crimson);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.9), inset 0 0 20px rgba(176, 16, 24, 0.35);
+  display: flex;
+  flex-direction: column;
+}
+
+.jigsaw-tray-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid rgba(176, 16, 24, 0.45);
+}
+
+.tray-title {
+  font-family: var(--font-horror);
+  font-size: 1.25rem;
+  letter-spacing: 2px;
+  color: #ff9999;
+  text-shadow: 0 0 8px rgba(255, 42, 42, 0.6);
+}
+
+.tray-hint {
+  font-family: var(--font-retro);
+  font-size: 0.76rem;
+  color: #cc8888;
+}
+
+.jigsaw-tray {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  align-content: flex-start;
+  align-items: center;
+  flex: 1;
+  min-height: 380px;
+  max-height: 560px;
+  overflow-y: auto;
+  padding: 14px;
+  background: rgba(10, 1, 2, 0.75);
+  border-radius: 8px;
+  border: 1.5px solid rgba(139, 0, 0, 0.4);
+}
+
+.jigsaw-tray::-webkit-scrollbar {
+  width: 6px;
+}
+.jigsaw-tray::-webkit-scrollbar-thumb {
+  background: var(--blood);
+  border-radius: 4px;
+}
+
+/* Puzzle Pieces (Touch & Mouse Draggable) */
 .jigsaw-piece {
   display: inline-block;
   cursor: grab;
@@ -391,13 +558,13 @@ body {
 }
 
 .jigsaw-piece:hover {
-  filter: drop-shadow(0 0 8px rgba(255, 42, 42, 0.6));
+  filter: drop-shadow(0 0 10px rgba(255, 42, 42, 0.7));
 }
 
 .jigsaw-piece.dragging {
   cursor: grabbing;
-  transform: scale(1.06);
-  filter: drop-shadow(0 12px 24px rgba(255, 42, 42, 0.7));
+  transform: scale(1.08);
+  filter: drop-shadow(0 14px 28px rgba(255, 42, 42, 0.85));
   z-index: 999 !important;
 }
 
@@ -413,7 +580,7 @@ body {
     transform: scale(1.04);
   }
   50% {
-    filter: drop-shadow(0 0 22px var(--glow)) brightness(1.7);
+    filter: drop-shadow(0 0 24px var(--glow)) brightness(1.7);
     transform: scale(1.02);
   }
   100% {
@@ -427,103 +594,15 @@ body {
   z-index: 100 !important;
 }
 
-/* Completion Glow on Entire Board */
+/* Board completion glow */
 @keyframes boardCompletedResonance {
-  0% {
-    box-shadow: 0 0 20px var(--blood);
-  }
-  50% {
-    box-shadow: 0 0 45px var(--glow), inset 0 0 30px var(--crimson);
-  }
-  100% {
-    box-shadow: 0 0 25px var(--crimson);
-  }
+  0% { box-shadow: 0 0 20px var(--blood); }
+  50% { box-shadow: 0 0 50px var(--glow), inset 0 0 35px var(--crimson); }
+  100% { box-shadow: 0 0 30px var(--crimson); }
 }
 
 .puzzle-completed-glow {
   animation: boardCompletedResonance 1.2s ease forwards;
-}
-
-/* Scattered Pieces Tray Dock */
-.jigsaw-tray-container {
-  width: 100%;
-  max-width: 536px;
-  background: rgba(18, 2, 4, 0.85);
-  border: 1px solid rgba(139, 0, 0, 0.6);
-  border-radius: 8px;
-  padding: 10px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(6px);
-}
-
-.jigsaw-tray-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-  padding-bottom: 6px;
-  border-bottom: 1px solid rgba(176, 16, 24, 0.25);
-}
-
-.tray-title {
-  font-family: var(--font-horror);
-  font-size: 0.95rem;
-  letter-spacing: 1px;
-  color: #ff9999;
-}
-
-.tray-hint {
-  font-size: 0.72rem;
-  color: #8c7676;
-}
-
-.jigsaw-tray {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  justify-content: center;
-  align-items: center;
-  min-height: 110px;
-  max-height: 220px;
-  overflow-y: auto;
-  padding: 6px;
-  background: rgba(10, 1, 2, 0.65);
-  border-radius: 6px;
-  border: 1px solid rgba(139, 0, 0, 0.2);
-}
-
-.jigsaw-tray::-webkit-scrollbar {
-  width: 5px;
-}
-.jigsaw-tray::-webkit-scrollbar-thumb {
-  background: var(--blood);
-  border-radius: 3px;
-}
-
-/* Loading Spinner */
-.jigsaw-loading {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 300px;
-  gap: 16px;
-}
-
-.candle-spinner {
-  width: 32px;
-  height: 48px;
-  background: linear-gradient(180deg, #ff7733 0%, #cc2200 70%, #660000 100%);
-  border-radius: 50% 50% 35% 35%;
-  box-shadow: 0 0 20px rgba(255, 85, 17, 0.8), 0 0 40px rgba(255, 42, 42, 0.5);
-  animation: candleFlicker 1.6s infinite alternate ease-in-out;
-}
-
-.loading-text {
-  font-family: var(--font-horror);
-  color: #ff9999;
-  letter-spacing: 2px;
-  font-size: 1.05rem;
 }
 
 /* ====================================================================
@@ -536,15 +615,13 @@ body {
   width: 100vw;
   height: 100vh;
   z-index: 2000;
-  background: rgba(5, 0, 1, 0.92);
+  background: #000;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 16px;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
-  overflow-y: auto;
+  transition: opacity 0.4s ease;
 }
 
 .reveal-modal-overlay.active {
@@ -555,46 +632,79 @@ body {
 .reveal-card {
   position: relative;
   width: 100%;
-  max-width: 620px;
-  border-radius: 12px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.95), 0 0 35px rgba(139, 0, 0, 0.4);
-  padding: 24px 20px;
-  transform: translateY(20px) scale(0.97);
-  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
-  max-height: 90vh;
-  overflow-y: auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transform: none;
+  transition: none;
+  max-height: none;
+  overflow: hidden;
+  padding: 0;
+  border-radius: 0;
+  box-shadow: none;
 }
 
 .reveal-modal-overlay.active .reveal-card {
-  transform: translateY(0) scale(1);
+  transform: none;
 }
 
-/* Reveal Header Common */
+/* Popup image + button layout */
+.popup-reveal {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.popup-reveal-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.popup-reveal .btn-continue-stage {
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: auto;
+  min-width: 220px;
+  padding: 14px 36px;
+  font-size: 1.1rem;
+  white-space: nowrap;
+  z-index: 2100;
+}
+
 .reveal-badge-tag {
   display: inline-block;
   font-family: var(--font-retro);
-  font-size: 0.72rem;
+  font-size: 0.76rem;
   letter-spacing: 2px;
-  padding: 3px 10px;
+  padding: 4px 12px;
   border-radius: 4px;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   text-transform: uppercase;
 }
 
 .reveal-main-title {
   font-family: var(--font-horror);
-  font-size: 1.8rem;
+  font-size: 2rem;
   letter-spacing: 2px;
   margin-bottom: 14px;
 }
 
-/* STAGE 1: Old Aged Paper Handwritten Letter */
+/* STAGE 1: Handwritten Letter */
 .letter-reveal-theme {
   background-color: var(--paper);
-  color: var(--paper-ink);
+  color: #2b1d14;
   border: 4px solid #8c7353;
   box-shadow: inset 0 0 50px rgba(110, 80, 50, 0.45), 0 15px 40px rgba(0, 0, 0, 0.9);
-  background-image: radial-gradient(circle at 80% 20%, rgba(160, 120, 80, 0.25) 0%, transparent 60%);
 }
 
 .letter-reveal-theme .reveal-badge-tag {
@@ -611,7 +721,7 @@ body {
 
 .letter-image-preview {
   width: 100%;
-  max-height: 220px;
+  max-height: 240px;
   object-fit: cover;
   border: 2px solid #5a422d;
   border-radius: 6px;
@@ -620,10 +730,10 @@ body {
 }
 
 .letter-content-scroll {
-  font-family: var(--font-text);
-  font-size: 1.08rem;
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
   line-height: 1.6;
-  background: rgba(255, 255, 255, 0.45);
+  background: rgba(255, 255, 255, 0.55);
   padding: 16px;
   border-radius: 6px;
   border-left: 4px solid var(--blood);
@@ -640,36 +750,31 @@ body {
   margin-bottom: 8px;
 }
 
-/* Clear highlight for the ghost name ELLIE */
 .highlight-ellie {
   font-weight: 900;
   color: #990000;
-  background: rgba(255, 42, 42, 0.18);
-  padding: 2px 6px;
+  background: rgba(255, 42, 42, 0.2);
+  padding: 2px 8px;
   border-radius: 4px;
   letter-spacing: 2px;
-  border: 1px dashed #990000;
+  border: 1.5px dashed #990000;
   display: inline-block;
+  font-size: 1.25rem;
   text-shadow: 0 0 2px rgba(153, 0, 0, 0.4);
 }
 
 /* Clue Banner inside reveal cards */
 .clue-banner {
   background: rgba(139, 0, 0, 0.15);
-  border: 1px solid var(--blood);
+  border: 1.5px solid var(--blood);
   border-radius: 6px;
-  padding: 10px 14px;
-  margin-bottom: 14px;
-}
-
-.letter-reveal-theme .clue-banner {
-  background: rgba(139, 0, 0, 0.12);
-  border-color: #8b0000;
+  padding: 12px 16px;
+  margin-bottom: 16px;
 }
 
 .clue-banner-heading {
   font-family: var(--font-retro);
-  font-size: 0.76rem;
+  font-size: 0.8rem;
   letter-spacing: 1.5px;
   color: var(--crimson);
   font-weight: bold;
@@ -677,24 +782,24 @@ body {
 }
 
 .clue-banner-text {
-  font-size: 0.95rem;
+  font-size: 1.05rem;
   font-weight: 700;
-  color: var(--paper-ink);
+  color: inherit;
 }
 
 .hunt-instruction-note {
-  font-size: 0.85rem;
+  font-size: 0.88rem;
   color: #553b2f;
   font-style: italic;
   margin-top: 4px;
 }
 
-/* STAGE 2: Investigator Evidence Card (Hair & Hand) */
+/* STAGE 2: Investigator Evidence Card */
 .clue-card-theme {
   background: var(--bg-soft);
   color: var(--text);
   border: 2px solid var(--crimson);
-  box-shadow: 0 0 25px rgba(176, 16, 24, 0.35);
+  box-shadow: 0 0 30px rgba(176, 16, 24, 0.4);
 }
 
 .clue-card-theme .reveal-badge-tag {
@@ -703,59 +808,116 @@ body {
   border: 1px solid var(--crimson);
 }
 
-.clue-card-theme .reveal-main-title {
-  color: #ff9999;
-  text-shadow: 0 0 10px rgba(176, 16, 24, 0.5);
-}
-
 .relic-item-box {
   display: flex;
-  gap: 12px;
+  gap: 14px;
   background: rgba(10, 1, 2, 0.85);
   border: 1px solid rgba(176, 16, 24, 0.4);
   border-radius: 8px;
-  padding: 12px;
-  margin-bottom: 10px;
+  padding: 14px;
+  margin-bottom: 12px;
 }
 
 .relic-icon-pill {
-  font-size: 1.6rem;
+  font-size: 1.8rem;
   color: var(--glow);
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 44px;
-  height: 44px;
+  min-width: 48px;
+  height: 48px;
   background: rgba(26, 3, 5, 0.9);
   border-radius: 8px;
   border: 1px solid var(--blood);
+  flex-shrink: 0;
+}
+
+.relic-info-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
 }
 
 .relic-info-title {
   font-family: var(--font-horror);
-  font-size: 1.15rem;
+  font-size: 1.25rem;
   color: #ffcccc;
-  margin-bottom: 4px;
-}
-
-.relic-location-text {
-  font-size: 0.92rem;
-  color: #ffdddd;
-  font-weight: bold;
-  margin-bottom: 4px;
-  line-height: 1.4;
+  margin-bottom: 2px;
 }
 
 .relic-desc-text {
-  font-size: 0.8rem;
+  font-size: 0.84rem;
   color: #ba9898;
+  line-height: 1.4;
+  margin-bottom: 2px;
 }
 
-.clue-card-theme .clue-banner-text {
-  color: #ffcccc;
+/* ---- Placement Clue Visual Block ---- */
+.placement-clue-block {
+  background: rgba(80, 0, 0, 0.28);
+  border: 1.5px solid rgba(255, 42, 42, 0.55);
+  border-radius: 7px;
+  padding: 10px 12px;
+  margin-top: 4px;
 }
-.clue-card-theme .hunt-instruction-note {
-  color: #e0a3a3;
+
+.placement-clue-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.placement-pin-svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 5px rgba(255, 42, 42, 0.8));
+}
+
+.placement-clue-label {
+  font-family: var(--font-retro);
+  font-size: 0.72rem;
+  letter-spacing: 2px;
+  color: #ff6666;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.placement-clue-zone {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.placement-zone-marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 28px;
+  background: var(--blood);
+  border-radius: 50%;
+  border: 2px solid var(--glow);
+  box-shadow: 0 0 10px rgba(255, 42, 42, 0.6);
+  flex-shrink: 0;
+}
+
+.placement-zone-number {
+  font-family: var(--font-retro);
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: #fff0f0;
+  line-height: 1;
+}
+
+.placement-zone-text {
+  font-size: 0.93rem;
+  color: #ffd0d0;
+  font-weight: 600;
+  line-height: 1.45;
+  padding-top: 3px;
 }
 
 /* STAGE 3: Candle Diagram Ritual Theme */
@@ -771,14 +933,94 @@ body {
   width: 100%;
   max-width: 380px;
   height: 240px;
-  margin: 12px auto;
+  margin: 14px auto;
   background: radial-gradient(circle, #250508 0%, #0a0102 70%);
   border: 1px solid var(--crimson);
   border-radius: 50%;
   box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.9), 0 0 20px rgba(139, 0, 0, 0.4);
 }
 
-/* Candle sigil lines */
+/* Stage 2 relic-in-circle layout — slightly taller to fit label callouts */
+.relic-circle-layout {
+  height: 300px;
+  max-width: 340px;
+}
+
+.ritual-circle-instruction {
+  text-align: center;
+  font-size: 0.88rem;
+  color: #cc8888;
+  font-style: italic;
+  margin: -4px 0 4px;
+}
+
+/* SVG axis line overlay (same dimensions as the layout div) */
+.relic-axis-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* Individual relic marker inside the circle */
+.relic-circle-marker {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  cursor: default;
+  z-index: 2;
+}
+
+.relic-circle-icon {
+  width: 40px;
+  height: 40px;
+  background: rgba(30, 3, 5, 0.92);
+  border: 2px solid var(--glow);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  box-shadow: 0 0 14px rgba(255, 42, 42, 0.7), inset 0 0 8px rgba(0,0,0,0.8);
+  animation: relicPulse 2.4s infinite alternate ease-in-out;
+}
+
+@keyframes relicPulse {
+  0%   { box-shadow: 0 0 10px rgba(255, 42, 42, 0.5); }
+  100% { box-shadow: 0 0 22px rgba(255, 42, 42, 0.95), 0 0 8px rgba(255,180,180,0.3); }
+}
+
+.relic-circle-label {
+  font-family: var(--font-horror);
+  font-size: 0.72rem;
+  color: #ffcccc;
+  white-space: nowrap;
+  background: rgba(10, 1, 2, 0.88);
+  padding: 1px 6px;
+  border-radius: 3px;
+  border: 1px solid rgba(176, 16, 24, 0.5);
+  letter-spacing: 0.5px;
+}
+
+.relic-circle-spot {
+  font-family: var(--font-retro);
+  font-size: 0.6rem;
+  color: #ff8888;
+  text-align: center;
+  max-width: 110px;
+  line-height: 1.3;
+  background: rgba(10, 1, 2, 0.82);
+  padding: 2px 5px;
+  border-radius: 3px;
+  border: 1px solid rgba(255, 42, 42, 0.3);
+  white-space: normal;
+}
+
 .sigil-pentagram {
   position: absolute;
   top: 50%;
@@ -802,9 +1044,9 @@ body {
 .flame-orb {
   width: 14px;
   height: 20px;
-  background: radial-gradient(ellipse at 50% 60%, #ff8833 0%, var(--candle-flame) 50%, #991100 100%);
+  background: radial-gradient(ellipse at 50% 60%, #ff8833 0%, #ff5511 50%, #991100 100%);
   border-radius: 50% 50% 35% 35%;
-  box-shadow: 0 0 14px var(--candle-flame), 0 0 25px rgba(255, 60, 0, 0.5);
+  box-shadow: 0 0 14px #ff5511, 0 0 25px rgba(255, 60, 0, 0.5);
   animation: candleFlicker 1.8s infinite alternate ease-in-out;
 }
 
@@ -823,273 +1065,272 @@ body {
   background: rgba(10, 1, 2, 0.8);
   border: 1px solid rgba(139, 0, 0, 0.4);
   border-radius: 6px;
-  padding: 10px 14px;
-  margin-bottom: 14px;
-  font-size: 0.85rem;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  font-size: 0.9rem;
   line-height: 1.5;
   color: #ffcccc;
 }
 
 .ritual-rules-list li {
-  margin-left: 18px;
+  margin-left: 20px;
   margin-bottom: 4px;
 }
 
-/* Warm Red-Orange Candle Flicker Animation */
-@keyframes candleFlicker {
-  0% {
-    transform: scale(1) rotate(-1deg);
-    opacity: 0.9;
-    box-shadow: 0 0 12px var(--candle-flame);
-  }
-  25% {
-    transform: scale(1.08, 0.95) rotate(1.5deg);
-    opacity: 1;
-    box-shadow: 0 0 18px var(--candle-flame);
-  }
-  50% {
-    transform: scale(0.96, 1.05) rotate(-1deg);
-    opacity: 0.85;
-    box-shadow: 0 0 10px var(--candle-flame);
-  }
-  75% {
-    transform: scale(1.05, 0.98) rotate(2deg);
-    opacity: 1;
-    box-shadow: 0 0 22px #ff6622;
-  }
-  100% {
-    transform: scale(0.98) rotate(-0.5deg);
-    opacity: 0.92;
-    box-shadow: 0 0 14px var(--candle-flame);
-  }
-}
-
-/* STAGE 4: Final Ghost Reveal (Ellie's Face) */
+/* STAGE 4: Final Ghost Reveal */
 .ghost-reveal-theme {
   background: var(--bg);
   color: var(--text);
   border: 2px solid var(--glow);
-  box-shadow: 0 0 40px rgba(255, 42, 42, 0.5);
+  box-shadow: 0 0 45px rgba(255, 42, 42, 0.6);
   animation: ghostAuraPulse 3s infinite alternate ease-in-out;
 }
 
 @keyframes ghostAuraPulse {
-  0% {
-    box-shadow: 0 0 25px rgba(255, 42, 42, 0.4);
-  }
-  100% {
-    box-shadow: 0 0 50px rgba(255, 42, 42, 0.85), inset 0 0 25px rgba(139, 0, 0, 0.4);
-  }
+  0% { box-shadow: 0 0 25px rgba(255, 42, 42, 0.4); }
+  100% { box-shadow: 0 0 55px rgba(255, 42, 42, 0.9), inset 0 0 30px rgba(139, 0, 0, 0.5); }
 }
 
-/* Fullscreen Red Flash on Stage 4 */
-.red-flash-overlay {
+/* Stage 4 Jumpscare Video Overlay */
+.jumpscare-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: var(--glow);
+  background: #000;
   z-index: 3000;
+  display: none;
+  justify-content: center;
+  align-items: center;
   pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.15s ease;
 }
 
-.red-flash-overlay.trigger-flash {
-  animation: dramaticRedFlash 1.4s cubic-bezier(0.1, 0.9, 0.2, 1) forwards;
+.jumpscare-overlay.active {
+  display: flex;
+  pointer-events: all;
 }
 
-@keyframes dramaticRedFlash {
-  0% { opacity: 0; }
-  15% { opacity: 0.92; }
-  30% { opacity: 0.3; }
-  45% { opacity: 0.75; }
-  100% { opacity: 0; }
+.jumpscare-overlay video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .ghost-image-frame {
   position: relative;
   width: 100%;
-  max-height: 280px;
+  max-height: 300px;
   overflow: hidden;
   border-radius: 8px;
   border: 2px solid var(--glow);
-  margin-bottom: 14px;
-  box-shadow: 0 0 30px rgba(255, 42, 42, 0.6);
+  margin-bottom: 16px;
+  box-shadow: 0 0 35px rgba(255, 42, 42, 0.7);
 }
 
 .ghost-face-img {
   width: 100%;
   height: 100%;
-  max-height: 280px;
+  max-height: 300px;
   object-fit: cover;
   animation: ghostSlowFade 2.2s ease forwards;
   filter: contrast(1.2) drop-shadow(0 0 15px rgba(255, 42, 42, 0.7));
 }
 
 @keyframes ghostSlowFade {
-  0% {
-    opacity: 0;
-    transform: scale(1.15);
-    filter: blur(10px) brightness(2);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-    filter: blur(0px) brightness(1);
-  }
+  0% { opacity: 0; transform: scale(1.15); filter: blur(10px) brightness(2); }
+  100% { opacity: 1; transform: scale(1); filter: blur(0px) brightness(1); }
 }
 
 .hunt-summary-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 8px;
-  margin-bottom: 14px;
+  gap: 10px;
+  margin-bottom: 16px;
 }
 
 .summary-cell {
   background: rgba(26, 3, 5, 0.85);
   border: 1px solid rgba(176, 16, 24, 0.4);
-  padding: 8px 10px;
+  padding: 10px 12px;
   border-radius: 6px;
 }
 
 .summary-label {
   font-family: var(--font-retro);
-  font-size: 0.68rem;
+  font-size: 0.74rem;
   color: #ff9999;
 }
 
 .summary-val {
-  font-size: 0.88rem;
+  font-size: 0.95rem;
   font-weight: bold;
   color: #ffffff;
 }
 
-/* The Blood-Red Continue Button */
+/* Continue Stage Button */
 .btn-continue-stage {
   display: block;
   width: 100%;
   background: linear-gradient(180deg, var(--crimson) 0%, var(--blood) 100%);
   color: #ffffff;
   border: 1px solid var(--glow);
-  padding: 14px 20px;
+  padding: 16px 22px;
   font-family: var(--font-horror);
-  font-size: 1.25rem;
+  font-size: 1.35rem;
   letter-spacing: 2px;
   text-transform: uppercase;
   border-radius: 8px;
   cursor: pointer;
-  box-shadow: 0 4px 15px rgba(139, 0, 0, 0.6), 0 0 15px rgba(255, 42, 42, 0.35);
+  box-shadow: 0 4px 18px rgba(139, 0, 0, 0.7), 0 0 18px rgba(255, 42, 42, 0.4);
   transition: all 0.25s ease;
   outline: none;
   text-align: center;
-  margin-top: 12px;
+  margin-top: 14px;
 }
 
 .btn-continue-stage:hover {
   background: linear-gradient(180deg, var(--glow) 0%, var(--crimson) 100%);
-  box-shadow: 0 6px 25px rgba(255, 42, 42, 0.7);
+  box-shadow: 0 6px 28px rgba(255, 42, 42, 0.8);
   transform: translateY(-2px);
 }
 
-.btn-continue-stage:active {
-  transform: translateY(1px);
-}
-
-/* Organizer Modal */
-.organizer-modal {
-  background: #120204;
-  border: 2px solid var(--blood);
+/* ====================================================================
+ * ADMIN / ORGANIZER MODAL SYSTEM
+ * ==================================================================== */
+.admin-modal {
+  background: #150205;
+  border: 3px solid var(--crimson);
   color: var(--text);
-  max-width: 440px;
+  max-width: 520px;
 }
 
-.organizer-modal .modal-title {
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid var(--crimson);
+  padding-bottom: 8px;
+  margin-bottom: 14px;
+}
+
+.admin-title {
   font-family: var(--font-retro);
-  font-size: 1.1rem;
+  font-size: 1.25rem;
   color: #ff9999;
-  margin-bottom: 12px;
-  border-bottom: 1px solid var(--blood);
-  padding-bottom: 6px;
+  letter-spacing: 1px;
 }
 
-.organizer-row {
-  margin-bottom: 12px;
+.admin-quick-bar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
 }
 
-.organizer-label {
-  font-size: 0.8rem;
-  color: #ba9898;
-  margin-bottom: 4px;
+.btn-reset-l1 {
+  background: var(--blood);
+  color: #fff;
+  border: 2px solid var(--glow);
+  padding: 12px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: var(--font-retro);
+  font-weight: bold;
+  font-size: 0.95rem;
+  flex: 1;
+  text-align: center;
+  box-shadow: 0 0 14px rgba(255, 42, 42, 0.5);
+  transition: all 0.2s ease;
 }
 
-.organizer-input {
-  width: 100%;
-  padding: 8px;
+.btn-reset-l1:hover {
+  background: var(--crimson);
+  box-shadow: 0 0 22px var(--glow);
+  transform: translateY(-1px);
+}
+
+.admin-section {
+  background: rgba(10, 1, 2, 0.75);
+  border: 1px solid rgba(176, 16, 24, 0.4);
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 14px;
+}
+
+.admin-section-title {
+  font-family: var(--font-retro);
+  font-size: 0.85rem;
+  color: #cca3a3;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.admin-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.admin-input {
+  flex: 1;
+  padding: 9px 12px;
   background: #080001;
   border: 1px solid var(--crimson);
   color: var(--text);
   border-radius: 4px;
   font-family: var(--font-retro);
+  font-size: 0.92rem;
 }
 
-.organizer-buttons {
-  display: flex;
-  gap: 10px;
-  margin-top: 14px;
-}
-
-.btn-danger {
-  background: var(--blood);
-  color: #fff;
-  border: 1px solid var(--glow);
-  padding: 8px 14px;
-  border-radius: 6px;
+.btn-admin-action {
+  background: #2a0509;
+  color: #ffcccc;
+  border: 1.5px solid var(--crimson);
+  padding: 9px 16px;
+  border-radius: 4px;
   cursor: pointer;
+  font-family: var(--font-retro);
   font-weight: bold;
 }
-.btn-danger:hover {
-  background: var(--crimson);
-  box-shadow: 0 0 12px var(--glow);
+.btn-admin-action:hover {
+  background: var(--blood);
+  border-color: var(--glow);
 }
 
-.btn-secondary {
-  background: #250508;
-  color: var(--text);
-  border: 1px solid rgba(139, 0, 0, 0.4);
-  padding: 8px 14px;
+.btn-admin-close {
+  background: #1a0306;
+  color: #cca3a3;
+  border: 1px solid rgba(176, 16, 24, 0.4);
+  padding: 10px 18px;
   border-radius: 6px;
   cursor: pointer;
+  font-family: var(--font-retro);
+  width: 100%;
 }
 
-/* Subtle Screen Flicker */
-@keyframes flickerGlow {
-  0% { opacity: 0.85; filter: drop-shadow(0 0 4px var(--glow)); }
-  50% { opacity: 1; filter: drop-shadow(0 0 12px var(--glow)); }
-  100% { opacity: 0.9; filter: drop-shadow(0 0 6px var(--glow)); }
+/* Animations */
+@keyframes candleFlicker {
+  0% { transform: scale(1) rotate(-1deg); opacity: 0.9; }
+  50% { transform: scale(1.06, 0.97) rotate(1.5deg); opacity: 1; }
+  100% { transform: scale(0.97, 1.04) rotate(-0.5deg); opacity: 0.92; }
 }
 
 /* Responsive adjustments */
-@media (max-width: 600px) {
-  .app-container {
-    padding: 8px 8px 20px 8px;
+@media (max-width: 980px) {
+  .jigsaw-play-area {
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
   }
-  .brand-title {
-    font-size: 1.1rem;
-    letter-spacing: 1px;
+  .retro-tv-frame-wrap,
+  .jigsaw-tray-container {
+    width: 100%;
+    max-width: 580px;
   }
-  .current-stage-title {
-    font-size: 1.3rem;
-  }
-  .reveal-card {
-    padding: 18px 14px;
-  }
-  .reveal-main-title {
-    font-size: 1.45rem;
-  }
-  .hunt-summary-grid {
-    grid-template-columns: 1fr;
+  .jigsaw-tray {
+    min-height: 160px;
+    max-height: 280px;
   }
 }

@@ -1,13 +1,14 @@
 /**
  * ====================================================================
- * REUSABLE JIGSAW PUZZLE COMPONENT
+ * REUSABLE JIGSAW PUZZLE COMPONENT (RETRO TV EDITION)
  * ====================================================================
  * High-performance, mobile-first Jigsaw engine with:
  * - Touch & Mouse drag-and-drop via Pointer Events
  * - Classic jigsaw interlocking tab/blank curves rendered on Canvas
- * - Proximity snapping with crimson glow & haptic/audio feedback
+ * - Retro CRT TV cabinet with scanlines, curvature & vintage bezel
+ * - Side-by-side layout with dedicated Scatterbox
+ * - Proximity snapping with crimson glow & audio/haptic feedback
  * - Graceful fallback generator for missing images
- * - Completion detection callback
  */
 
 class JigsawPuzzle {
@@ -27,17 +28,14 @@ class JigsawPuzzle {
     this.totalPieces = this.rows * this.cols;
     this.isCompleted = false;
 
-    // Dimensions (computed dynamically based on container)
+    // Dimensions
     this.boardWidth = 0;
     this.boardHeight = 0;
     this.pieceWidth = 0;
     this.pieceHeight = 0;
 
-    // Edge map: edges[row][col] = { top, right, bottom, left }
-    // 0: Flat, 1: Tab (out), -1: Blank (in)
+    // Edge map
     this.edgeMap = [];
-
-    // Drag state
     this.activeDrag = null;
 
     // Bind event handlers
@@ -54,7 +52,7 @@ class JigsawPuzzle {
     this.container.innerHTML = `
       <div class="jigsaw-loading">
         <div class="candle-spinner"></div>
-        <p class="loading-text">Summoning puzzle fragments...</p>
+        <p class="loading-text">TUNING CRT FREQUENCY: STAGE ${this.stageConfig.id}...</p>
       </div>
     `;
 
@@ -73,9 +71,6 @@ class JigsawPuzzle {
     window.addEventListener("resize", this.handleResize);
   }
 
-  /**
-   * Load image with fallback or procedural spooky canvas texture
-   */
   loadImageWithFallback(primarySrc, secondarySrc) {
     return new Promise((resolve) => {
       const tryLoad = (src, onFail) => {
@@ -89,37 +84,34 @@ class JigsawPuzzle {
 
       tryLoad(primarySrc, () => {
         tryLoad(secondarySrc, () => {
-          // Generate an atmospheric procedural eerie canvas if all files fail
+          // Generate procedural vintage horror canvas
           console.warn("Generating procedural fallback puzzle texture for stage", this.stageConfig.id);
           const canvas = document.createElement("canvas");
-          canvas.width = 600;
-          canvas.height = 600;
+          canvas.width = 640;
+          canvas.height = 640;
           const ctx = canvas.getContext("2d");
 
-          // Dark blood-red radial gradient
-          const grad = ctx.createRadialGradient(300, 300, 50, 300, 300, 350);
-          grad.addColorStop(0, "#2a0408");
-          grad.addColorStop(0.6, "#150204");
-          grad.addColorStop(1, "#070102");
+          const grad = ctx.createRadialGradient(320, 320, 50, 320, 320, 380);
+          grad.addColorStop(0, "#2c0408");
+          grad.addColorStop(0.6, "#140103");
+          grad.addColorStop(1, "#050001");
           ctx.fillStyle = grad;
-          ctx.fillRect(0, 0, 600, 600);
+          ctx.fillRect(0, 0, 640, 640);
 
-          // Eerie occult sigil lines
-          ctx.strokeStyle = "rgba(176, 16, 24, 0.4)";
+          ctx.strokeStyle = "rgba(176, 16, 24, 0.45)";
           ctx.lineWidth = 3;
           ctx.beginPath();
-          ctx.arc(300, 300, 220, 0, Math.PI * 2);
-          ctx.arc(300, 300, 160, 0, Math.PI * 2);
+          ctx.arc(320, 320, 240, 0, Math.PI * 2);
+          ctx.arc(320, 320, 180, 0, Math.PI * 2);
           ctx.stroke();
 
-          // Stage title in blood font
           ctx.fillStyle = "#e8d5b5";
-          ctx.font = "bold 32px Georgia, serif";
+          ctx.font = "bold 34px Georgia, serif";
           ctx.textAlign = "center";
-          ctx.fillText(`STAGE ${this.stageConfig.id}`, 300, 280);
+          ctx.fillText(`SEAL ${this.stageConfig.id}`, 320, 300);
           ctx.fillStyle = "#ff2a2a";
-          ctx.font = "italic 20px Georgia, serif";
-          ctx.fillText(this.stageConfig.title || "The Sealed Relic", 300, 330);
+          ctx.font = "italic 22px Georgia, serif";
+          ctx.fillText(this.stageConfig.title || "The Sealed Relic", 320, 350);
 
           const fallbackImg = new Image();
           fallbackImg.onload = () => resolve(fallbackImg);
@@ -129,37 +121,26 @@ class JigsawPuzzle {
     });
   }
 
-  /**
-   * Pre-generate complementary interlocking edges for all grid cells
-   */
   generateEdgeMap() {
     this.edgeMap = [];
     for (let r = 0; r < this.rows; r++) {
       this.edgeMap[r] = [];
       for (let c = 0; c < this.cols; c++) {
-        // Top edge: flat on row 0, else inverse of cell above's bottom
         const top = r === 0 ? 0 : -this.edgeMap[r - 1][c].bottom;
-        // Left edge: flat on col 0, else inverse of cell to left's right
         const left = c === 0 ? 0 : -this.edgeMap[r][c - 1].right;
-        // Bottom edge: flat on last row, else random tab (1) or blank (-1)
         const bottom = r === this.rows - 1 ? 0 : Math.random() < 0.5 ? 1 : -1;
-        // Right edge: flat on last col, else random tab (1) or blank (-1)
         const right = c === this.cols - 1 ? 0 : Math.random() < 0.5 ? 1 : -1;
-
         this.edgeMap[r][c] = { top, right, bottom, left };
       }
     }
   }
 
-  /**
-   * Build main DOM layout for the Jigsaw component
-   */
   buildDOM() {
     this.container.innerHTML = `
       <div class="jigsaw-wrapper">
         <div class="jigsaw-header-info">
           <div class="jigsaw-counter">
-            <span class="counter-label">SEALS RESTORED:</span>
+            <span class="counter-label">CRT SEALS RESTORED:</span>
             <span class="counter-val" id="piece-counter">0 / ${this.totalPieces}</span>
           </div>
           <div class="jigsaw-progress-bar">
@@ -167,20 +148,33 @@ class JigsawPuzzle {
           </div>
         </div>
 
-        <!-- Puzzle Board (target grid) -->
-        <div class="jigsaw-board-frame">
-          <div class="jigsaw-board" id="jigsaw-board">
-            <div class="jigsaw-reference-overlay" id="jigsaw-ref-overlay"></div>
-          </div>
-        </div>
+        <!-- Side-by-side play area: Retro TV Cabinet (image overlay) & Scatterbox -->
+        <div class="jigsaw-play-area">
 
-        <!-- Piece Staging Dock / Tray -->
-        <div class="jigsaw-tray-container">
-          <div class="jigsaw-tray-header">
-            <span class="tray-title">SCATTERED FRAGMENTS</span>
-            <span class="tray-hint">Drag piece to matching slot</span>
+          <!-- 1. Real Retro TV Frame using retro-tv.png -->
+          <div class="retro-tv-frame-wrap" id="retro-tv-frame-wrap">
+            <!-- The underlying CRT screen container holding the puzzle board -->
+            <div class="retro-tv-screen-underlay" id="retro-tv-screen-underlay">
+              <div class="crt-scanlines"></div>
+              <div class="crt-glass-curvature"></div>
+              <div class="jigsaw-board" id="jigsaw-board">
+                <div class="jigsaw-reference-overlay" id="jigsaw-ref-overlay"></div>
+              </div>
+            </div>
+
+            <!-- The Authentic Retro TV Transparent Overlay Image -->
+            <img src="images/retro-tv.png" alt="Retro Television Cabinet" class="retro-tv-img-overlay" draggable="false" onerror="this.src='assets/retro-tv.png'">
           </div>
-          <div class="jigsaw-tray" id="jigsaw-tray"></div>
+
+          <!-- 2. Scatterbox / Piece Staging Dock -->
+          <div class="jigsaw-tray-container">
+            <div class="jigsaw-tray-header">
+              <span class="tray-title">SCATTERED FRAGMENTS</span>
+              <span class="tray-hint">Drag into TV Screen</span>
+            </div>
+            <div class="jigsaw-tray" id="jigsaw-tray"></div>
+          </div>
+
         </div>
       </div>
     `;
@@ -191,27 +185,36 @@ class JigsawPuzzle {
     this.progressFillEl = this.container.querySelector("#jigsaw-progress-fill");
     this.refOverlayEl = this.container.querySelector("#jigsaw-ref-overlay");
 
-    // Reference overlay background
     if (this.sourceImage) {
       this.refOverlayEl.style.backgroundImage = `url(${this.sourceImage.src})`;
     }
   }
 
   computeDimensions() {
-    // Determine board dimensions based on container width and aspect ratio
-    const frameEl = this.container.querySelector(".jigsaw-board-frame");
-    const maxAvailableWidth = Math.min(frameEl.clientWidth || 360, 520);
+    const playArea = this.container.querySelector(".jigsaw-play-area");
+    const tvFrameWrap = this.container.querySelector("#retro-tv-frame-wrap");
+    const isStacked = window.innerWidth < 980;
 
-    // Keep aspect ratio close to original image or default 1:1 / 4:3
-    let imgRatio = 1;
-    if (this.sourceImage && this.sourceImage.width && this.sourceImage.height) {
-      imgRatio = this.sourceImage.height / this.sourceImage.width;
-      // Clamp reasonable ratios for screen aesthetics
-      imgRatio = Math.max(0.75, Math.min(1.25, imgRatio));
+    let tvWidth;
+    if (playArea && !isStacked) {
+      const halfWidth = Math.floor((playArea.clientWidth - 40) * 0.54);
+      tvWidth = Math.max(480, Math.min(halfWidth, 680));
+    } else {
+      const fullWidth = playArea ? playArea.clientWidth - 20 : 380;
+      tvWidth = Math.max(340, Math.min(fullWidth, 580));
     }
 
-    this.boardWidth = Math.floor(maxAvailableWidth);
-    this.boardHeight = Math.floor(this.boardWidth * imgRatio);
+    // retro-tv.png is square 1:1
+    const tvHeight = tvWidth;
+    if (tvFrameWrap) {
+      tvFrameWrap.style.width = `${tvWidth}px`;
+      tvFrameWrap.style.height = `${tvHeight}px`;
+    }
+
+    // Coordinates of transparent glass screen on retro-tv.png:
+    // Left: 10.5%, Width: 61.2% | Top: 21.4%, Height: 52.3%
+    this.boardWidth = Math.floor(tvWidth * 0.612);
+    this.boardHeight = Math.floor(tvHeight * 0.523);
 
     this.boardEl.style.width = `${this.boardWidth}px`;
     this.boardEl.style.height = `${this.boardHeight}px`;
@@ -219,7 +222,6 @@ class JigsawPuzzle {
     this.pieceWidth = this.boardWidth / this.cols;
     this.pieceHeight = this.boardHeight / this.rows;
 
-    // Tab size ratio: ~20% of piece dimension
     this.tabX = this.pieceWidth * 0.22;
     this.tabY = this.pieceHeight * 0.22;
   }
@@ -227,19 +229,14 @@ class JigsawPuzzle {
   handleResize() {
     if (this.isCompleted) return;
     const oldW = this.boardWidth;
-    const oldH = this.boardHeight;
     this.computeDimensions();
 
     if (Math.abs(oldW - this.boardWidth) > 5) {
-      // Re-render pieces to new scale
       this.renderPieces();
       this.repositionPiecesAfterResize();
     }
   }
 
-  /**
-   * Draw authentic interlocking jigsaw curves for a piece onto Canvas
-   */
   drawJigsawPath(ctx, x, y, w, h, edges, tx, ty) {
     ctx.beginPath();
     ctx.moveTo(x, y);
@@ -248,7 +245,7 @@ class JigsawPuzzle {
     if (edges.top === 0) {
       ctx.lineTo(x + w, y);
     } else {
-      const sign = edges.top; // 1 = out (up), -1 = in (down)
+      const sign = edges.top;
       const mid = x + w / 2;
       ctx.lineTo(mid - tx * 1.3, y);
       ctx.bezierCurveTo(
@@ -268,7 +265,7 @@ class JigsawPuzzle {
     if (edges.right === 0) {
       ctx.lineTo(x + w, y + h);
     } else {
-      const sign = edges.right; // 1 = out (right), -1 = in (left)
+      const sign = edges.right;
       const mid = y + h / 2;
       ctx.lineTo(x + w, mid - ty * 1.3);
       ctx.bezierCurveTo(
@@ -288,7 +285,7 @@ class JigsawPuzzle {
     if (edges.bottom === 0) {
       ctx.lineTo(x, y + h);
     } else {
-      const sign = edges.bottom; // 1 = out (down), -1 = in (up)
+      const sign = edges.bottom;
       const mid = x + w / 2;
       ctx.lineTo(mid + tx * 1.3, y + h);
       ctx.bezierCurveTo(
@@ -308,7 +305,7 @@ class JigsawPuzzle {
     if (edges.left === 0) {
       ctx.lineTo(x, y);
     } else {
-      const sign = edges.left; // 1 = out (left), -1 = in (right)
+      const sign = edges.left;
       const mid = y + h / 2;
       ctx.lineTo(x, mid + ty * 1.3);
       ctx.bezierCurveTo(
@@ -327,11 +324,7 @@ class JigsawPuzzle {
     ctx.closePath();
   }
 
-  /**
-   * Render each piece into an individual canvas with interlocking clipping path
-   */
   renderPieces() {
-    // Preserve snapped state if re-rendering on resize
     const previousState = new Map();
     this.pieces.forEach((p) => previousState.set(`${p.row}_${p.col}`, p.isSnapped));
 
@@ -348,11 +341,9 @@ class JigsawPuzzle {
         const edges = this.edgeMap[r][c];
         const isAlreadySnapped = previousState.get(`${r}_${c}`) || false;
 
-        // Target position on board
         const targetX = c * this.pieceWidth;
         const targetY = r * this.pieceHeight;
 
-        // Create ghost/target slot indicator on board
         const slotEl = document.createElement("div");
         slotEl.className = "jigsaw-slot";
         slotEl.dataset.row = r;
@@ -363,7 +354,6 @@ class JigsawPuzzle {
         slotEl.style.height = `${this.pieceHeight}px`;
         this.boardEl.appendChild(slotEl);
 
-        // Piece canvas with padding for tabs
         const padX = this.tabX * 1.5;
         const padY = this.tabY * 1.5;
         const cvWidth = this.pieceWidth + padX * 2;
@@ -374,12 +364,10 @@ class JigsawPuzzle {
         canvas.height = Math.ceil(cvHeight);
         const ctx = canvas.getContext("2d");
 
-        // Scale ratios from source image
         const imgTabX = (sxPerCol / this.pieceWidth) * padX;
         const imgTabY = (syPerRow / this.pieceHeight) * padY;
 
         ctx.save();
-        // Path with offset for padding
         this.drawJigsawPath(
           ctx,
           padX,
@@ -391,7 +379,6 @@ class JigsawPuzzle {
           this.tabY
         );
 
-        // Clip and draw image segment
         ctx.clip();
 
         ctx.drawImage(
@@ -406,14 +393,12 @@ class JigsawPuzzle {
           cvHeight
         );
 
-        // Subtle dark red bevel outline
-        ctx.lineWidth = 1.5;
-        ctx.strokeStyle = "rgba(176, 16, 24, 0.75)";
+        ctx.lineWidth = 1.6;
+        ctx.strokeStyle = "rgba(176, 16, 24, 0.8)";
         ctx.stroke();
 
         ctx.restore();
 
-        // Piece DOM element
         const pieceEl = document.createElement("div");
         pieceEl.className = "jigsaw-piece";
         pieceEl.dataset.row = r;
@@ -436,9 +421,7 @@ class JigsawPuzzle {
           isSnapped: isAlreadySnapped
         };
 
-        // Pointer drag listener
         pieceEl.addEventListener("pointerdown", (e) => this.handlePointerDown(e, pieceObj));
-
         this.pieces.push(pieceObj);
 
         if (isAlreadySnapped) {
@@ -450,11 +433,7 @@ class JigsawPuzzle {
     }
   }
 
-  /**
-   * Shuffle pieces in the tray initially
-   */
   scatterPieces() {
-    // Randomize order of non-snapped pieces in the tray
     const unsnapped = this.pieces.filter((p) => !p.isSnapped);
     for (let i = unsnapped.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -472,16 +451,12 @@ class JigsawPuzzle {
     });
   }
 
-  /**
-   * Pointer Events: Dragging Logic
-   */
   handlePointerDown(e, piece) {
     if (piece.isSnapped || this.isCompleted) return;
     e.preventDefault();
 
     this.onPiecePickup(piece);
 
-    // Bring piece to body or board level for unrestricted dragging
     const rect = piece.el.getBoundingClientRect();
     const boardRect = this.boardEl.getBoundingClientRect();
 
@@ -499,7 +474,6 @@ class JigsawPuzzle {
     piece.el.classList.add("dragging");
     piece.el.setPointerCapture(e.pointerId);
 
-    // Move to board coordinates so it renders above board
     document.body.appendChild(piece.el);
     piece.el.style.position = "fixed";
     piece.el.style.left = `${rect.left}px`;
@@ -525,7 +499,6 @@ class JigsawPuzzle {
     piece.el.style.left = `${curX}px`;
     piece.el.style.top = `${curY}px`;
 
-    // Highlight target slot if hovering nearby
     const boardRect = this.boardEl.getBoundingClientRect();
     const pieceBoardX = curX - boardRect.left + piece.offsetX;
     const pieceBoardY = curY - boardRect.top + piece.offsetY;
@@ -553,7 +526,6 @@ class JigsawPuzzle {
     piece.el.classList.remove("dragging");
     piece.slotEl.classList.remove("slot-hover-target");
 
-    // Check if within snap tolerance to its correct slot
     const boardRect = this.boardEl.getBoundingClientRect();
     const currentLeft = parseFloat(piece.el.style.left);
     const currentTop = parseFloat(piece.el.style.top);
@@ -564,10 +536,8 @@ class JigsawPuzzle {
     const dist = Math.hypot(pieceBoardX - piece.targetX, pieceBoardY - piece.targetY);
 
     if (dist <= this.snapTolerance) {
-      // Snapped!
       this.snapPiece(piece, true);
     } else {
-      // Return to tray
       this.returnPieceToTray(piece);
     }
 
@@ -589,13 +559,9 @@ class JigsawPuzzle {
     this.trayEl.appendChild(piece.el);
   }
 
-  /**
-   * Snap piece into correct board slot
-   */
   snapPiece(piece, triggerEffects = true) {
     piece.isSnapped = true;
 
-    // Attach to board element
     this.boardEl.appendChild(piece.el);
     piece.el.style.position = "absolute";
     piece.el.style.left = `${piece.targetX - piece.offsetX}px`;
@@ -604,7 +570,6 @@ class JigsawPuzzle {
     piece.el.classList.add("snapped");
 
     if (triggerEffects) {
-      // Brief red glow pulse animation on snap
       piece.el.classList.add("snap-pulse");
       piece.slotEl.classList.add("slot-snapped");
       setTimeout(() => {
@@ -630,17 +595,12 @@ class JigsawPuzzle {
   }
 
   handlePuzzleComplete() {
-    // Crimson flash and completion resonance
     this.boardEl.classList.add("puzzle-completed-glow");
-
     setTimeout(() => {
       this.onComplete(this.stageConfig);
     }, 850);
   }
 
-  /**
-   * Toggle reference image overlay
-   */
   toggleReference(forceState) {
     if (forceState !== undefined) {
       this.refOverlayEl.classList.toggle("active", forceState);
@@ -650,9 +610,6 @@ class JigsawPuzzle {
     return this.refOverlayEl.classList.contains("active");
   }
 
-  /**
-   * Cleanup event listeners
-   */
   destroy() {
     window.removeEventListener("resize", this.handleResize);
     this.container.innerHTML = "";
