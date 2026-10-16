@@ -36,15 +36,15 @@ const GAME_CONFIG = {
       number: "1/4",
       title: "Stage I: The Whisper in the Walls",
       subtitle: "Piece together the torn parchment from the locked study.",
-      puzzleImage: "assets/puzzles/stage1.jpg",
-      fallbackImage: "images/letter.jpg",
+      puzzleImage: "assets/puzzles/stage1.png",
+      fallbackImage: "images/letter.png",
       grid: { rows: 3, cols: 3 }, // 3x3 grid (9 pieces)
       snapTolerance: 45, // pixel distance for automatic snap
       revealType: "letter",
       revealData: {
         tag: "SECRET CORRESPONDENCE • 1892",
         title: "The Unsent Letter",
-        image: "images/letter.jpg",
+        image: "images/letter.png",
         letterHeading: "October 14th, 1892",
         letterBody: [
           "My dearest sister,",
@@ -141,7 +141,7 @@ const GAME_CONFIG = {
       number: "4/4",
       title: "Stage IV: The Manifestation of Ellie",
       subtitle: "The final seal breaks. Assemble the visage to confront the truth.",
-      puzzleImage: "assets/puzzles/stage4.jpg",
+      puzzleImage: "assets/puzzles/stage4.png",
       fallbackImage: "images/the-ghost.png",
       grid: { rows: 4, cols: 4 }, // 4x4 grid (16 pieces)
       snapTolerance: 40,

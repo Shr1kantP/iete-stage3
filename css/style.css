@@ -1,0 +1,1095 @@
+/* ====================================================================
+ * THE CURSE OF ELLIE - HORROR MYSTERY JIGSAW HUNT
+ * STYLING & ATMOSPHERE SYSTEM
+ * ==================================================================== */
+
+/* Custom Font Definitions */
+@font-face {
+  font-family: 'FrightHouse';
+  src: url('../assets/fonts/TheFrightHouseDEMO.otf') format('opentype'),
+       url('../asset/fonts/TheFrightHouseDEMO.otf') format('opentype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'EasVHS';
+  src: url('../assets/fonts/eas-vhs.ttf') format('truetype'),
+       url('../asset/fonts/eas-vhs.ttf') format('truetype');
+  font-display: swap;
+}
+
+/* User Defined Color Palette */
+:root {
+  --bg: #0a0102;        /* near-black with red undertone */
+  --bg-soft: #1a0305;   /* deep soft wine background */
+  --blood: #8b0000;     /* deep dried blood red */
+  --crimson: #b01018;   /* vivid rich crimson */
+  --glow: #ff2a2a;      /* brilliant horror scarlet glow */
+  --paper: #e8d5b5;     /* aged parchment for letter and evidence cards */
+  --text: #f3e3dc;      /* crisp bone-white readable text */
+
+  /* Atmospheric accents */
+  --paper-ink: #2b1d14;
+  --candle-flame: #ff5511;
+  --candle-glow: rgba(255, 75, 17, 0.45);
+  --border-glow: 0 0 12px rgba(255, 42, 42, 0.35);
+  --font-horror: 'FrightHouse', 'Cinzel Decorative', 'Georgia', serif;
+  --font-retro: 'EasVHS', 'Courier New', monospace;
+  --font-text: 'Crimson Text', 'Georgia', serif;
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Global Reset & Base */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100%;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Fallback static background if video fails */
+body {
+  background: radial-gradient(circle at 50% 30%, #200407 0%, #0d0103 60%, #050001 100%);
+  position: relative;
+}
+
+/* Fullscreen Background Video & Overlay */
+.video-background-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+#bg-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.38;
+  filter: contrast(1.15) saturate(1.2);
+  transition: opacity 1.2s ease;
+}
+
+/* Dark Red Tinted Vignette Overlay */
+.video-overlay-vignette {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 50% 45%, rgba(139, 0, 0, 0.28) 0%, rgba(26, 3, 5, 0.75) 60%, rgba(10, 1, 2, 0.95) 100%);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+.noise-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: repeating-radial-gradient(circle at 17% 32%, rgba(255, 42, 42, 0.02) 0, rgba(0, 0, 0, 0.04) 2px);
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+/* Main Application Shell */
+.app-container {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 12px 16px 24px 16px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+/* Header Bar */
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  background: rgba(26, 3, 5, 0.75);
+  border: 1px solid rgba(176, 16, 24, 0.45);
+  border-radius: 8px;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7), inset 0 0 10px rgba(176, 16, 24, 0.25);
+  margin-bottom: 12px;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-icon {
+  font-size: 1.4rem;
+  color: var(--glow);
+  text-shadow: 0 0 8px var(--glow);
+  animation: flickerGlow 4s infinite alternate ease-in-out;
+}
+
+.brand-title {
+  font-family: var(--font-horror);
+  font-size: 1.35rem;
+  letter-spacing: 2px;
+  color: var(--text);
+  text-transform: uppercase;
+  text-shadow: 0 0 10px rgba(255, 42, 42, 0.6);
+}
+
+.brand-badge {
+  font-family: var(--font-retro);
+  font-size: 0.7rem;
+  background: rgba(139, 0, 0, 0.5);
+  border: 1px solid var(--crimson);
+  color: #ff9999;
+  padding: 2px 6px;
+  border-radius: 4px;
+  letter-spacing: 1px;
+}
+
+/* Stage Indicator Component */
+.header-stage-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(10, 1, 2, 0.85);
+  border: 1px solid var(--blood);
+  padding: 6px 14px;
+  border-radius: 20px;
+  box-shadow: 0 0 10px rgba(139, 0, 0, 0.35);
+}
+
+.stage-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #c4a4a4;
+  font-weight: 600;
+}
+
+.stage-number {
+  font-family: var(--font-retro);
+  font-size: 1.05rem;
+  color: var(--glow);
+  font-weight: bold;
+  text-shadow: 0 0 8px var(--glow);
+}
+
+/* Header Action Controls */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.icon-btn {
+  background: rgba(26, 3, 5, 0.9);
+  border: 1px solid rgba(176, 16, 24, 0.5);
+  color: var(--text);
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.82rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.25s ease;
+  outline: none;
+}
+
+.icon-btn:hover {
+  background: var(--blood);
+  border-color: var(--glow);
+  box-shadow: 0 0 10px rgba(255, 42, 42, 0.5);
+  transform: translateY(-1px);
+}
+
+.icon-btn:active {
+  transform: translateY(1px);
+}
+
+.icon-btn.active {
+  background: var(--crimson);
+  border-color: var(--glow);
+  box-shadow: 0 0 12px rgba(255, 42, 42, 0.8);
+}
+
+.organizer-secret-btn {
+  opacity: 0.45;
+  padding: 6px 8px;
+  font-size: 0.85rem;
+  border-color: transparent;
+}
+.organizer-secret-btn:hover {
+  opacity: 1;
+  border-color: var(--crimson);
+}
+
+/* Stage Header Title & Mission Subtitle */
+.stage-title-banner {
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.current-stage-title {
+  font-family: var(--font-horror);
+  font-size: 1.6rem;
+  color: #ffcccc;
+  letter-spacing: 1.5px;
+  text-shadow: 0 0 12px rgba(176, 16, 24, 0.8);
+  margin-bottom: 3px;
+}
+
+.current-stage-subtitle {
+  font-size: 0.88rem;
+  color: #cbb4b0;
+  font-style: italic;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Jigsaw Frame & Board Layout */
+.jigsaw-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.jigsaw-header-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 520px;
+  padding: 4px 6px;
+}
+
+.jigsaw-counter {
+  font-size: 0.8rem;
+  color: #ba9898;
+  letter-spacing: 1px;
+}
+
+.counter-val {
+  font-family: var(--font-retro);
+  color: var(--glow);
+  font-weight: bold;
+  margin-left: 4px;
+}
+
+.jigsaw-progress-bar {
+  flex: 1;
+  max-width: 180px;
+  height: 6px;
+  background: rgba(10, 1, 2, 0.9);
+  border: 1px solid var(--blood);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-left: 12px;
+}
+
+.jigsaw-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--blood), var(--glow));
+  box-shadow: 0 0 8px var(--glow);
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* The Board Area */
+.jigsaw-board-frame {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px;
+  background: rgba(15, 2, 4, 0.85);
+  border: 2px solid var(--crimson);
+  border-radius: 10px;
+  box-shadow: 0 0 25px rgba(139, 0, 0, 0.45), inset 0 0 20px rgba(0, 0, 0, 0.9);
+  width: 100%;
+  max-width: 536px;
+}
+
+.jigsaw-board {
+  position: relative;
+  background: rgba(8, 1, 2, 0.95);
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.95);
+  overflow: hidden;
+  border-radius: 6px;
+  touch-action: none;
+}
+
+/* Target Slot Outlines */
+.jigsaw-slot {
+  position: absolute;
+  border: 1px dashed rgba(176, 16, 24, 0.3);
+  box-sizing: border-box;
+  pointer-events: none;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.jigsaw-slot.slot-hover-target {
+  border-color: var(--glow);
+  background: rgba(255, 42, 42, 0.15);
+  box-shadow: inset 0 0 15px rgba(255, 42, 42, 0.35);
+}
+
+.jigsaw-slot.slot-snapped {
+  border-color: transparent;
+}
+
+/* Reference Image Overlay */
+.jigsaw-reference-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+  z-index: 20;
+  filter: contrast(0.9) brightness(0.65) sepia(0.3) hue-rotate(-20deg);
+}
+
+.jigsaw-reference-overlay.active {
+  opacity: 0.45;
+}
+
+/* Puzzle Pieces */
+.jigsaw-piece {
+  display: inline-block;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  will-change: transform, left, top;
+  transition: transform 0.12s ease;
+}
+
+.jigsaw-piece:hover {
+  filter: drop-shadow(0 0 8px rgba(255, 42, 42, 0.6));
+}
+
+.jigsaw-piece.dragging {
+  cursor: grabbing;
+  transform: scale(1.06);
+  filter: drop-shadow(0 12px 24px rgba(255, 42, 42, 0.7));
+  z-index: 999 !important;
+}
+
+.jigsaw-piece.snapped {
+  cursor: default;
+  filter: none;
+}
+
+/* Red Snap Glow Pulse Animation */
+@keyframes snapGlowPulse {
+  0% {
+    filter: drop-shadow(0 0 4px var(--glow)) brightness(1.4);
+    transform: scale(1.04);
+  }
+  50% {
+    filter: drop-shadow(0 0 22px var(--glow)) brightness(1.7);
+    transform: scale(1.02);
+  }
+  100% {
+    filter: none;
+    transform: scale(1);
+  }
+}
+
+.snap-pulse {
+  animation: snapGlowPulse 0.65s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
+  z-index: 100 !important;
+}
+
+/* Completion Glow on Entire Board */
+@keyframes boardCompletedResonance {
+  0% {
+    box-shadow: 0 0 20px var(--blood);
+  }
+  50% {
+    box-shadow: 0 0 45px var(--glow), inset 0 0 30px var(--crimson);
+  }
+  100% {
+    box-shadow: 0 0 25px var(--crimson);
+  }
+}
+
+.puzzle-completed-glow {
+  animation: boardCompletedResonance 1.2s ease forwards;
+}
+
+/* Scattered Pieces Tray Dock */
+.jigsaw-tray-container {
+  width: 100%;
+  max-width: 536px;
+  background: rgba(18, 2, 4, 0.85);
+  border: 1px solid rgba(139, 0, 0, 0.6);
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(6px);
+}
+
+.jigsaw-tray-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(176, 16, 24, 0.25);
+}
+
+.tray-title {
+  font-family: var(--font-horror);
+  font-size: 0.95rem;
+  letter-spacing: 1px;
+  color: #ff9999;
+}
+
+.tray-hint {
+  font-size: 0.72rem;
+  color: #8c7676;
+}
+
+.jigsaw-tray {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  min-height: 110px;
+  max-height: 220px;
+  overflow-y: auto;
+  padding: 6px;
+  background: rgba(10, 1, 2, 0.65);
+  border-radius: 6px;
+  border: 1px solid rgba(139, 0, 0, 0.2);
+}
+
+.jigsaw-tray::-webkit-scrollbar {
+  width: 5px;
+}
+.jigsaw-tray::-webkit-scrollbar-thumb {
+  background: var(--blood);
+  border-radius: 3px;
+}
+
+/* Loading Spinner */
+.jigsaw-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  gap: 16px;
+}
+
+.candle-spinner {
+  width: 32px;
+  height: 48px;
+  background: linear-gradient(180deg, #ff7733 0%, #cc2200 70%, #660000 100%);
+  border-radius: 50% 50% 35% 35%;
+  box-shadow: 0 0 20px rgba(255, 85, 17, 0.8), 0 0 40px rgba(255, 42, 42, 0.5);
+  animation: candleFlicker 1.6s infinite alternate ease-in-out;
+}
+
+.loading-text {
+  font-family: var(--font-horror);
+  color: #ff9999;
+  letter-spacing: 2px;
+  font-size: 1.05rem;
+}
+
+/* ====================================================================
+ * CLUE REVEAL SCREENS & MODALS
+ * ==================================================================== */
+.reveal-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2000;
+  background: rgba(5, 0, 1, 0.92);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  overflow-y: auto;
+}
+
+.reveal-modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.reveal-card {
+  position: relative;
+  width: 100%;
+  max-width: 620px;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.95), 0 0 35px rgba(139, 0, 0, 0.4);
+  padding: 24px 20px;
+  transform: translateY(20px) scale(0.97);
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.reveal-modal-overlay.active .reveal-card {
+  transform: translateY(0) scale(1);
+}
+
+/* Reveal Header Common */
+.reveal-badge-tag {
+  display: inline-block;
+  font-family: var(--font-retro);
+  font-size: 0.72rem;
+  letter-spacing: 2px;
+  padding: 3px 10px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.reveal-main-title {
+  font-family: var(--font-horror);
+  font-size: 1.8rem;
+  letter-spacing: 2px;
+  margin-bottom: 14px;
+}
+
+/* STAGE 1: Old Aged Paper Handwritten Letter */
+.letter-reveal-theme {
+  background-color: var(--paper);
+  color: var(--paper-ink);
+  border: 4px solid #8c7353;
+  box-shadow: inset 0 0 50px rgba(110, 80, 50, 0.45), 0 15px 40px rgba(0, 0, 0, 0.9);
+  background-image: radial-gradient(circle at 80% 20%, rgba(160, 120, 80, 0.25) 0%, transparent 60%);
+}
+
+.letter-reveal-theme .reveal-badge-tag {
+  background: #5c1818;
+  color: #ffcccc;
+  border: 1px solid #8b0000;
+}
+
+.letter-reveal-theme .reveal-main-title {
+  color: #3d1b11;
+  border-bottom: 2px solid rgba(139, 0, 0, 0.3);
+  padding-bottom: 6px;
+}
+
+.letter-image-preview {
+  width: 100%;
+  max-height: 220px;
+  object-fit: cover;
+  border: 2px solid #5a422d;
+  border-radius: 6px;
+  margin-bottom: 14px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.letter-content-scroll {
+  font-family: var(--font-text);
+  font-size: 1.08rem;
+  line-height: 1.6;
+  background: rgba(255, 255, 255, 0.45);
+  padding: 16px;
+  border-radius: 6px;
+  border-left: 4px solid var(--blood);
+  margin-bottom: 16px;
+}
+
+.letter-date {
+  font-style: italic;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.letter-paragraph {
+  margin-bottom: 8px;
+}
+
+/* Clear highlight for the ghost name ELLIE */
+.highlight-ellie {
+  font-weight: 900;
+  color: #990000;
+  background: rgba(255, 42, 42, 0.18);
+  padding: 2px 6px;
+  border-radius: 4px;
+  letter-spacing: 2px;
+  border: 1px dashed #990000;
+  display: inline-block;
+  text-shadow: 0 0 2px rgba(153, 0, 0, 0.4);
+}
+
+/* Clue Banner inside reveal cards */
+.clue-banner {
+  background: rgba(139, 0, 0, 0.15);
+  border: 1px solid var(--blood);
+  border-radius: 6px;
+  padding: 10px 14px;
+  margin-bottom: 14px;
+}
+
+.letter-reveal-theme .clue-banner {
+  background: rgba(139, 0, 0, 0.12);
+  border-color: #8b0000;
+}
+
+.clue-banner-heading {
+  font-family: var(--font-retro);
+  font-size: 0.76rem;
+  letter-spacing: 1.5px;
+  color: var(--crimson);
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.clue-banner-text {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--paper-ink);
+}
+
+.hunt-instruction-note {
+  font-size: 0.85rem;
+  color: #553b2f;
+  font-style: italic;
+  margin-top: 4px;
+}
+
+/* STAGE 2: Investigator Evidence Card (Hair & Hand) */
+.clue-card-theme {
+  background: var(--bg-soft);
+  color: var(--text);
+  border: 2px solid var(--crimson);
+  box-shadow: 0 0 25px rgba(176, 16, 24, 0.35);
+}
+
+.clue-card-theme .reveal-badge-tag {
+  background: rgba(176, 16, 24, 0.3);
+  color: var(--glow);
+  border: 1px solid var(--crimson);
+}
+
+.clue-card-theme .reveal-main-title {
+  color: #ff9999;
+  text-shadow: 0 0 10px rgba(176, 16, 24, 0.5);
+}
+
+.relic-item-box {
+  display: flex;
+  gap: 12px;
+  background: rgba(10, 1, 2, 0.85);
+  border: 1px solid rgba(176, 16, 24, 0.4);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 10px;
+}
+
+.relic-icon-pill {
+  font-size: 1.6rem;
+  color: var(--glow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  height: 44px;
+  background: rgba(26, 3, 5, 0.9);
+  border-radius: 8px;
+  border: 1px solid var(--blood);
+}
+
+.relic-info-title {
+  font-family: var(--font-horror);
+  font-size: 1.15rem;
+  color: #ffcccc;
+  margin-bottom: 4px;
+}
+
+.relic-location-text {
+  font-size: 0.92rem;
+  color: #ffdddd;
+  font-weight: bold;
+  margin-bottom: 4px;
+  line-height: 1.4;
+}
+
+.relic-desc-text {
+  font-size: 0.8rem;
+  color: #ba9898;
+}
+
+.clue-card-theme .clue-banner-text {
+  color: #ffcccc;
+}
+.clue-card-theme .hunt-instruction-note {
+  color: #e0a3a3;
+}
+
+/* STAGE 3: Candle Diagram Ritual Theme */
+.candles-diagram-theme {
+  background: var(--bg-soft);
+  color: var(--text);
+  border: 2px solid var(--blood);
+  box-shadow: 0 0 30px rgba(255, 85, 17, 0.25);
+}
+
+.candle-interactive-layout {
+  position: relative;
+  width: 100%;
+  max-width: 380px;
+  height: 240px;
+  margin: 12px auto;
+  background: radial-gradient(circle, #250508 0%, #0a0102 70%);
+  border: 1px solid var(--crimson);
+  border-radius: 50%;
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.9), 0 0 20px rgba(139, 0, 0, 0.4);
+}
+
+/* Candle sigil lines */
+.sigil-pentagram {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 170px;
+  height: 170px;
+  transform: translate(-50%, -50%);
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.candle-marker {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.flame-orb {
+  width: 14px;
+  height: 20px;
+  background: radial-gradient(ellipse at 50% 60%, #ff8833 0%, var(--candle-flame) 50%, #991100 100%);
+  border-radius: 50% 50% 35% 35%;
+  box-shadow: 0 0 14px var(--candle-flame), 0 0 25px rgba(255, 60, 0, 0.5);
+  animation: candleFlicker 1.8s infinite alternate ease-in-out;
+}
+
+.flame-label {
+  font-family: var(--font-retro);
+  font-size: 0.68rem;
+  color: #ffcc99;
+  white-space: nowrap;
+  background: rgba(10, 1, 2, 0.8);
+  padding: 1px 4px;
+  border-radius: 3px;
+  border: 1px solid rgba(255, 85, 17, 0.4);
+}
+
+.ritual-rules-list {
+  background: rgba(10, 1, 2, 0.8);
+  border: 1px solid rgba(139, 0, 0, 0.4);
+  border-radius: 6px;
+  padding: 10px 14px;
+  margin-bottom: 14px;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #ffcccc;
+}
+
+.ritual-rules-list li {
+  margin-left: 18px;
+  margin-bottom: 4px;
+}
+
+/* Warm Red-Orange Candle Flicker Animation */
+@keyframes candleFlicker {
+  0% {
+    transform: scale(1) rotate(-1deg);
+    opacity: 0.9;
+    box-shadow: 0 0 12px var(--candle-flame);
+  }
+  25% {
+    transform: scale(1.08, 0.95) rotate(1.5deg);
+    opacity: 1;
+    box-shadow: 0 0 18px var(--candle-flame);
+  }
+  50% {
+    transform: scale(0.96, 1.05) rotate(-1deg);
+    opacity: 0.85;
+    box-shadow: 0 0 10px var(--candle-flame);
+  }
+  75% {
+    transform: scale(1.05, 0.98) rotate(2deg);
+    opacity: 1;
+    box-shadow: 0 0 22px #ff6622;
+  }
+  100% {
+    transform: scale(0.98) rotate(-0.5deg);
+    opacity: 0.92;
+    box-shadow: 0 0 14px var(--candle-flame);
+  }
+}
+
+/* STAGE 4: Final Ghost Reveal (Ellie's Face) */
+.ghost-reveal-theme {
+  background: var(--bg);
+  color: var(--text);
+  border: 2px solid var(--glow);
+  box-shadow: 0 0 40px rgba(255, 42, 42, 0.5);
+  animation: ghostAuraPulse 3s infinite alternate ease-in-out;
+}
+
+@keyframes ghostAuraPulse {
+  0% {
+    box-shadow: 0 0 25px rgba(255, 42, 42, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 50px rgba(255, 42, 42, 0.85), inset 0 0 25px rgba(139, 0, 0, 0.4);
+  }
+}
+
+/* Fullscreen Red Flash on Stage 4 */
+.red-flash-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: var(--glow);
+  z-index: 3000;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.red-flash-overlay.trigger-flash {
+  animation: dramaticRedFlash 1.4s cubic-bezier(0.1, 0.9, 0.2, 1) forwards;
+}
+
+@keyframes dramaticRedFlash {
+  0% { opacity: 0; }
+  15% { opacity: 0.92; }
+  30% { opacity: 0.3; }
+  45% { opacity: 0.75; }
+  100% { opacity: 0; }
+}
+
+.ghost-image-frame {
+  position: relative;
+  width: 100%;
+  max-height: 280px;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 2px solid var(--glow);
+  margin-bottom: 14px;
+  box-shadow: 0 0 30px rgba(255, 42, 42, 0.6);
+}
+
+.ghost-face-img {
+  width: 100%;
+  height: 100%;
+  max-height: 280px;
+  object-fit: cover;
+  animation: ghostSlowFade 2.2s ease forwards;
+  filter: contrast(1.2) drop-shadow(0 0 15px rgba(255, 42, 42, 0.7));
+}
+
+@keyframes ghostSlowFade {
+  0% {
+    opacity: 0;
+    transform: scale(1.15);
+    filter: blur(10px) brightness(2);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0px) brightness(1);
+  }
+}
+
+.hunt-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.summary-cell {
+  background: rgba(26, 3, 5, 0.85);
+  border: 1px solid rgba(176, 16, 24, 0.4);
+  padding: 8px 10px;
+  border-radius: 6px;
+}
+
+.summary-label {
+  font-family: var(--font-retro);
+  font-size: 0.68rem;
+  color: #ff9999;
+}
+
+.summary-val {
+  font-size: 0.88rem;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+/* The Blood-Red Continue Button */
+.btn-continue-stage {
+  display: block;
+  width: 100%;
+  background: linear-gradient(180deg, var(--crimson) 0%, var(--blood) 100%);
+  color: #ffffff;
+  border: 1px solid var(--glow);
+  padding: 14px 20px;
+  font-family: var(--font-horror);
+  font-size: 1.25rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(139, 0, 0, 0.6), 0 0 15px rgba(255, 42, 42, 0.35);
+  transition: all 0.25s ease;
+  outline: none;
+  text-align: center;
+  margin-top: 12px;
+}
+
+.btn-continue-stage:hover {
+  background: linear-gradient(180deg, var(--glow) 0%, var(--crimson) 100%);
+  box-shadow: 0 6px 25px rgba(255, 42, 42, 0.7);
+  transform: translateY(-2px);
+}
+
+.btn-continue-stage:active {
+  transform: translateY(1px);
+}
+
+/* Organizer Modal */
+.organizer-modal {
+  background: #120204;
+  border: 2px solid var(--blood);
+  color: var(--text);
+  max-width: 440px;
+}
+
+.organizer-modal .modal-title {
+  font-family: var(--font-retro);
+  font-size: 1.1rem;
+  color: #ff9999;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--blood);
+  padding-bottom: 6px;
+}
+
+.organizer-row {
+  margin-bottom: 12px;
+}
+
+.organizer-label {
+  font-size: 0.8rem;
+  color: #ba9898;
+  margin-bottom: 4px;
+}
+
+.organizer-input {
+  width: 100%;
+  padding: 8px;
+  background: #080001;
+  border: 1px solid var(--crimson);
+  color: var(--text);
+  border-radius: 4px;
+  font-family: var(--font-retro);
+}
+
+.organizer-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.btn-danger {
+  background: var(--blood);
+  color: #fff;
+  border: 1px solid var(--glow);
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.btn-danger:hover {
+  background: var(--crimson);
+  box-shadow: 0 0 12px var(--glow);
+}
+
+.btn-secondary {
+  background: #250508;
+  color: var(--text);
+  border: 1px solid rgba(139, 0, 0, 0.4);
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Subtle Screen Flicker */
+@keyframes flickerGlow {
+  0% { opacity: 0.85; filter: drop-shadow(0 0 4px var(--glow)); }
+  50% { opacity: 1; filter: drop-shadow(0 0 12px var(--glow)); }
+  100% { opacity: 0.9; filter: drop-shadow(0 0 6px var(--glow)); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .app-container {
+    padding: 8px 8px 20px 8px;
+  }
+  .brand-title {
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+  }
+  .current-stage-title {
+    font-size: 1.3rem;
+  }
+  .reveal-card {
+    padding: 18px 14px;
+  }
+  .reveal-main-title {
+    font-size: 1.45rem;
+  }
+  .hunt-summary-grid {
+    grid-template-columns: 1fr;
+  }
+}

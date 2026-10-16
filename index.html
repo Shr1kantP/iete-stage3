@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>The Curse of Ellie | 4-Stage Horror Mystery Jigsaw Hunt</title>
+  <meta name="description" content="A 4-stage horror mystery jigsaw game. Piece together forgotten fragments to reveal clues for the real-world occult hunt.">
+  <meta name="theme-color" content="#0a0102">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Fullscreen Looping Video Background with Red Tint Overlay -->
+  <div class="video-background-layer" aria-hidden="true">
+    <video id="bg-video" autoplay loop muted playsinline preload="auto">
+      <source src="assets/video/background.mp4" type="video/mp4">
+      <source src="asset/videos/jigsaw_1.mp4" type="video/mp4">
+    </video>
+    <div class="video-overlay-vignette"></div>
+    <div class="noise-overlay"></div>
+  </div>
+
+  <!-- Stage 4 Dramatic Red Screen Flash Effect -->
+  <div class="red-flash-overlay" id="red-flash-overlay" aria-hidden="true"></div>
+
+  <!-- Main Horror Game Application -->
+  <main class="app-container">
+
+    <!-- Top Atmospheric Header -->
+    <header class="game-header">
+      <div class="header-brand">
+        <span class="brand-icon" aria-hidden="true">🕯️</span>
+        <div>
+          <h1 class="brand-title">THE CURSE OF ELLIE</h1>
+        </div>
+      </div>
+
+      <!-- Stage Indicator (1/4 to 4/4) -->
+      <div class="header-stage-badge">
+        <span class="stage-label">SEAL</span>
+        <span class="stage-number" id="header-stage-num">1/4</span>
+      </div>
+
+      <!-- Action Controls -->
+      <div class="header-actions">
+        <!-- Reference Image Toggle Button -->
+        <button class="icon-btn" id="btn-toggle-ref" title="Toggle Reference Relic">
+          <span aria-hidden="true">👁️</span>
+          <span class="btn-text">Reference</span>
+        </button>
+
+        <!-- Sound FX Ambiance Toggle -->
+        <button class="icon-btn" id="btn-toggle-audio" title="Toggle Atmospheric Audio">
+          <span aria-hidden="true">🔊</span>
+          <span class="btn-text">Audio</span>
+        </button>
+
+        <!-- Secret Organizer Reset / Jump Button -->
+        <button class="icon-btn organizer-secret-btn" id="btn-organizer-reset" title="Organizer Secret Menu (Shift+R)">
+          <span aria-hidden="true">💀</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Stage Banner Title & Narrative Subtitle -->
+    <section class="stage-title-banner" aria-live="polite">
+      <h2 class="current-stage-title" id="stage-banner-title">Stage I: The Whisper in the Walls</h2>
+      <p class="current-stage-subtitle" id="stage-banner-sub">Piece together the torn parchment from the locked study.</p>
+    </section>
+
+    <!-- Jigsaw Puzzle Mount Container (Rendered dynamically by JigsawPuzzle engine) -->
+    <section class="jigsaw-mount-zone" id="jigsaw-mount" aria-label="Jigsaw Puzzle Game Board"></section>
+
+  </main>
+
+  <!-- Clue Reveal Modal / Overlay -->
+  <div class="reveal-modal-overlay" id="reveal-overlay" role="dialog" aria-modal="true" aria-labelledby="reveal-modal-title">
+    <div class="reveal-card" id="reveal-card-body">
+      <!-- Injected dynamically based on stage revealType (letter, clue_card, candles_diagram, ghost_reveal) -->
+    </div>
+  </div>
+
+  <!-- Hidden Organizer Menu Modal -->
+  <div class="reveal-modal-overlay" id="organizer-modal-overlay" role="dialog" aria-modal="true">
+    <div class="reveal-card organizer-modal">
+      <h3 class="modal-title">⚙️ ORGANIZER CONTROLS</h3>
+      <div class="organizer-row">
+        <label class="organizer-label" for="organizer-pass-input">Organizer Passcode (Default: 1234):</label>
+        <input type="password" id="organizer-pass-input" class="organizer-input" placeholder="Enter Passcode">
+      </div>
+      <div class="organizer-row">
+        <label class="organizer-label" for="organizer-stage-select">Jump to Stage:</label>
+        <select id="organizer-stage-select" class="organizer-input"></select>
+      </div>
+      <div class="organizer-buttons">
+        <button class="btn-danger" id="btn-organizer-confirm-reset">RESET ALL PROGRESS</button>
+        <button class="btn-secondary" id="btn-organizer-jump">JUMP TO STAGE</button>
+        <button class="btn-secondary" id="btn-organizer-cancel">CLOSE</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Game Scripts -->
+  <script src="js/config.js"></script>
+  <script src="js/jigsaw.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
